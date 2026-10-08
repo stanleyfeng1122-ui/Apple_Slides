@@ -33,6 +33,10 @@ Ask in plain words, for example: *"Make a management deck from this report for m
 
 Don't use it for marketing or pitch decks, single charts, or small text fixes to an existing PPTX.
 
+## License
+
+MIT, see [LICENSE](LICENSE). Third-party code keeps its own notice in `apple-report-slides/assets/THIRD_PARTY.md`.
+
 ## Credits and notice
 
 - The HTML-first method follows [frontend-slides](https://github.com/zarazhangrui/frontend-slides) and [guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill). No code or templates were copied from them.
