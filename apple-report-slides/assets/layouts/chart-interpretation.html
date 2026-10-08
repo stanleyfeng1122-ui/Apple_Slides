@@ -1,0 +1,23 @@
+<!-- Limit: 3–6 directly labelled categories, native axes/gridlines; ≤3 short interpretation groups. Replace chart JSON with printed values. -->
+<section class="page" id="CHART" data-layout="chart-interpretation">
+  <div data-role="text" class="eyebrow">{{PROJECT}} | <span class="section-text">{{SECTION}}</span></div><div data-role="text" class="headline">{{ASSERTION HEADLINE}}</div>
+  <div data-role="text" class="subtitle">{{MEASURE · UNIT · PERIOD}}</div>
+  <div data-role="chart" data-name="evidence chart" style="position:absolute;left:90px;top:300px;width:1160px;height:590px" data-chart='{"type":"bar","categories":["{{CATEGORY A}}","{{CATEGORY B}}","{{CATEGORY C}}"],"series":[{"name":"{{MEASURE}}","values":[0,0,0],"color":"var(--section)"}],"min":0,"max":100,"category_labels":true,"data_labels":true,"number_format":"0","label_size":22}'></div>
+  <div class="group" style="left:1310px;top:330px;width:520px"><div data-role="text" class="group-title label">{{INTERPRETATION}}</div><div data-role="text" class="group-body">{{SUPPLIED COMPARISON}}</div></div>
+  <div class="group" style="left:1310px;top:590px;width:520px"><div data-role="text" class="group-title label">{{LIMIT}}</div><div data-role="text" class="group-body">{{LABELLED EVIDENCE}}</div></div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">{{SOURCE}}</div><div data-role="text" class="footer footer-mark">{{SOURCE CLASSIFICATION}}</div><div data-role="text" class="footer footer-number">{{N}}</div>
+  <aside data-role="notes">{{PRESENTER SCRIPT ≤150 WORDS: POINT · CONTEXT · QUALIFIERS · SOURCE PAGES}}</aside>
+</section>
+
+<!-- OPTIONAL KPI CAPSULE for a chart TAKEAWAY page, not a precise evidence page.
+     Move the native zero-based column bodies and grid into .backdrop. Copy this element
+     onto a column body >=60px below its top/value label. A vertical bar edge must cross
+     a cap; >=70% of the face overlaps content. At most two; neither repeats the headline.
+     Coordinates below match a 204px-wide column centred at x=1332. For an accent column,
+     add class dim, use data-tint=.07; keep the verified rim. Native bars stay editable. -->
+<template id="column-body-kpi">
+  <div class="glass" data-role="glass" data-name="column body KPI" data-tone="light" data-tint=".06" data-tint-base=".06" data-pull="20" style="left:1187px;top:604px;width:290px;height:136px;border-radius:68px">
+    <div data-role="text" class="g-lab" style="left:33px;top:22px;width:224px;height:24px;text-align:center">{{COMPARISON LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:33px;top:46px;width:224px;height:72px;text-align:center">{{KPI}}</div>
+  </div>
+</template>

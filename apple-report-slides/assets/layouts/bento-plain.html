@@ -1,0 +1,54 @@
+<!-- No photo means NO GLASS. Native 40px rounded rectangles, 24px gutters and >=40px text insets.
+     BLACK: data-theme="black", #1D1D1F tiles. WHITE: data-theme="white", #F5F5F7 tiles.
+     Same text hierarchy as photo bentos; never add decorative art to fill space. -->
+<section class="page" id="BENTO_PLAIN" data-theme="black" data-layout="bento-plain">
+  <div data-role="text" class="eyebrow">{{PROJECT}} | {{SECTION}}</div><div data-role="text" class="headline">{{VERBATIM HEADLINE}}</div>
+  <div class="card" data-name="primary" style="left:90px;top:250px;width:858px;height:348px">
+    <div data-role="shape" class="bento-tile" style="inset:0"></div>
+    <div data-role="text" class="g-lab" style="left:40px;top:40px;width:778px;height:24px">{{PRIMARY LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:40px;top:84px;width:778px;height:72px">{{VALUE · UNIT}}</div>
+    <div data-role="text" class="g-cap" style="left:40px;top:184px;width:778px;height:80px">{{SUPPLIED SHORT SOURCE LINE}}</div>
+  </div>
+  <div class="card" data-name="second" style="left:972px;top:250px;width:858px;height:348px">
+    <div data-role="shape" class="bento-tile" style="inset:0"></div>
+    <div data-role="text" class="g-lab" style="left:40px;top:40px;width:778px;height:24px">{{SECOND LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:40px;top:84px;width:778px;height:72px">{{VALUE · UNIT}}</div>
+    <div data-role="text" class="g-cap" style="left:40px;top:184px;width:778px;height:80px">{{LABELLED EVIDENCE}}</div>
+  </div>
+  <div class="card" data-name="third" style="left:90px;top:622px;width:858px;height:347px">
+    <div data-role="shape" class="bento-tile" style="inset:0"></div>
+    <div data-role="text" class="g-lab" style="left:40px;top:40px;width:778px;height:24px">{{THIRD LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:40px;top:84px;width:778px;height:72px">{{VALUE · UNIT}}</div>
+    <div data-role="text" class="g-cap" style="left:40px;top:184px;width:778px;height:80px">{{LABELLED EVIDENCE}}</div>
+  </div>
+  <div class="card" data-name="fourth" style="left:972px;top:622px;width:858px;height:347px">
+    <div data-role="shape" class="bento-tile" style="inset:0"></div>
+    <div data-role="text" class="g-lab" style="left:40px;top:40px;width:778px;height:24px">{{FOURTH LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:40px;top:84px;width:778px;height:72px">{{VALUE · UNIT}}</div>
+    <div data-role="text" class="g-cap" style="left:40px;top:184px;width:778px;height:80px">{{LABELLED EVIDENCE}}</div>
+  </div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">{{SOURCE}}</div><div data-role="text" class="footer footer-mark">{{SOURCE CLASSIFICATION}}</div><div data-role="text" class="footer footer-number">{{N}}</div>
+  <aside data-role="notes">{{PRESENTER SCRIPT ≤150 WORDS: POINT · CONTEXT · QUALIFIERS · SOURCE PAGES}}</aside>
+</section>
+
+<!-- WITH PHOTO TILE: choose this page when glass exceeds the .25 cap.
+     The whole photo is uncovered and contained, never behind opaque text tiles. -->
+<section class="page" id="BENTO_PHOTO_TILE" data-theme="white" data-layout="bento-plain" data-variant="with-photo-tile">
+  <div data-role="text" class="eyebrow">{{PROJECT}} | {{SECTION}}</div>
+  <div data-role="text" class="headline">{{VERBATIM HEADLINE}}</div>
+  <img data-role="image" src="assets/{{WHOLE_PHOTO}}" alt="" style="left:90px;top:250px;width:858px;height:680px;object-fit:contain;border-radius:40px">
+  <div class="card" data-name="primary" style="left:972px;top:250px;width:858px;height:328px">
+    <div data-role="shape" class="bento-tile" style="inset:0"></div>
+    <div data-role="text" class="label" style="left:40px;top:40px;width:778px">{{PRIMARY LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:40px;top:88px;width:778px">{{VALUE}}</div>
+    <div data-role="text" class="caption" style="left:40px;top:188px;width:778px">{{UNIT / CAPTION}}</div>
+  </div>
+  <div class="card" data-name="second" style="left:972px;top:602px;width:858px;height:328px">
+    <div data-role="shape" class="bento-tile" style="inset:0"></div>
+    <div data-role="text" class="label" style="left:40px;top:40px;width:778px">{{SECOND LABEL}}</div>
+    <div data-role="text" class="g-big" style="left:40px;top:88px;width:778px">{{VALUE}}</div>
+    <div data-role="text" class="caption" style="left:40px;top:188px;width:778px">{{UNIT / CAPTION}}</div>
+  </div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">{{SOURCE}}</div><div data-role="text" class="footer footer-mark">{{SOURCE CLASSIFICATION}}</div><div data-role="text" class="footer footer-number">{{N}}</div>
+  <aside data-role="notes">{{PRESENTER SCRIPT ≤150 WORDS: POINT · CONTEXT · QUALIFIERS · SOURCE PAGES}}</aside>
+</section>

@@ -1,0 +1,41 @@
+<!-- White named section card; four rows. Source-stated goal status → pill, else plain —. Drop the status column if none. Section fill is independent of status. -->
+<section class="page" id="GOALS" data-layout="goal-progress">
+  <div data-role="text" class="eyebrow">{{PROJECT}} | <span class="section-text">{{SECTION}}</span></div><div data-role="text" class="headline">{{ASSERTION HEADLINE}}</div>
+  <div data-role="text" class="label" style="left:1570px;top:292px;width:260px">STATUS</div>
+  <div data-role="shape" class="section-card" style="left:90px;top:230px;width:1740px;height:714px"></div>
+  <div data-role="text" class="section-heading" style="left:122px;top:254px;width:1100px">{{SECTION NAME}}</div>
+  <div class="card" data-name="goal 1" style="left:90px;top:328px;width:1740px;height:150px"><div class="card-content">
+    <div data-role="text" class="label" style="width:500px">{{GOAL 1}}</div>
+    <div data-role="shape" class="track" style="left:548px;top:8px;width:650px;height:28px;background:#e6e6eb"></div>
+    <div data-role="shape" class="progress" style="left:548px;top:8px;width:{{SCALED_WIDTH}}px;height:28px;background:var(--section)"></div>
+    <div data-role="shape" class="target-tick" style="left:1198px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div>
+    <div data-role="text" class="value" style="left:calc(548px + {{SCALED_WIDTH}}px - 100px);top:44px;width:200px;text-align:center;font-size:32px!important;line-height:38px!important">{{VALUE}}<br><span class="caption">{{YEAR}}</span></div>
+    <div data-role="text" class="caption" style="left:1230px;top:0;width:180px">{{TARGET · YEAR}}</div>
+    <div data-role="shape" class="status-pill" style="left:1448px;width:228px">{{STATUS}}</div></div></div>
+  <div class="card" data-name="goal 2" style="left:90px;top:478px;width:1740px;height:150px"><div class="card-content">
+    <div data-role="text" class="label" style="width:500px">{{GOAL 2}}</div>
+    <div data-role="shape" class="track" style="left:548px;top:8px;width:650px;height:28px;background:#e6e6eb"></div>
+    <div data-role="shape" class="progress" style="left:548px;top:8px;width:{{SCALED_WIDTH}}px;height:28px;background:var(--section)"></div>
+    <div data-role="shape" class="target-tick" style="left:1198px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div>
+    <div data-role="text" class="value" style="left:calc(548px + {{SCALED_WIDTH}}px - 100px);top:44px;width:200px;text-align:center;font-size:32px!important;line-height:38px!important">{{VALUE}}<br><span class="caption">{{YEAR}}</span></div>
+    <div data-role="text" class="caption" style="left:1230px;top:0;width:180px">{{TARGET · YEAR}}</div>
+    <div data-role="shape" class="status-pill" style="left:1448px;width:228px">{{STATUS}}</div></div></div>
+  <div class="card" data-name="goal 3" style="left:90px;top:628px;width:1740px;height:150px"><div class="card-content">
+    <div data-role="text" class="label" style="width:500px">{{GOAL 3}}</div>
+    <div data-role="shape" class="track" style="left:548px;top:8px;width:650px;height:28px;background:#e6e6eb"></div>
+    <div data-role="shape" class="progress" style="left:548px;top:8px;width:{{SCALED_WIDTH}}px;height:28px;background:var(--section)"></div>
+    <div data-role="shape" class="target-tick" style="left:1198px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div>
+    <div data-role="text" class="value" style="left:calc(548px + {{SCALED_WIDTH}}px - 100px);top:44px;width:200px;text-align:center;font-size:32px!important;line-height:38px!important">{{VALUE}}<br><span class="caption">{{YEAR}}</span></div>
+    <div data-role="text" class="caption" style="left:1230px;top:0;width:180px">{{TARGET · YEAR}}</div>
+    <div data-role="shape" class="status-pill" style="left:1448px;width:228px">{{STATUS}}</div></div></div>
+  <div class="card" data-name="goal 4" style="left:90px;top:778px;width:1740px;height:150px"><div class="card-content">
+    <div data-role="text" class="label" style="width:500px">{{GOAL 4}}</div>
+    <div data-role="shape" class="track" style="left:548px;top:8px;width:650px;height:28px;background:#e6e6eb"></div>
+    <div data-role="shape" class="progress" style="left:548px;top:8px;width:{{SCALED_WIDTH}}px;height:28px;background:var(--section)"></div>
+    <div data-role="shape" class="target-tick" style="left:1198px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div>
+    <div data-role="text" class="value" style="left:calc(548px + {{SCALED_WIDTH}}px - 100px);top:44px;width:200px;text-align:center;font-size:32px!important;line-height:38px!important">{{VALUE}}<br><span class="caption">{{YEAR}}</span></div>
+    <div data-role="text" class="caption" style="left:1230px;top:0;width:180px">{{TARGET · YEAR}}</div>
+    <div data-role="shape" class="status-pill" style="left:1448px;width:228px">{{STATUS}}</div></div></div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">{{SOURCE}}</div><div data-role="text" class="footer footer-mark">{{SOURCE CLASSIFICATION}}</div><div data-role="text" class="footer footer-number">{{N}}</div>
+  <aside data-role="notes">{{PRESENTER SCRIPT ≤150 WORDS: POINT · CONTEXT · QUALIFIERS · SOURCE PAGES}}</aside>
+</section>

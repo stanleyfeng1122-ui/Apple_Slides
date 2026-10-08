@@ -1,0 +1,20 @@
+<!-- Limit: one image ≤60% stage width, 2–6 callouts; labels ≤6 words, dots 12px, up to two 2px border leaders each. -->
+<section class="page" id="FIGURE" data-layout="figure-callouts">
+  <div data-role="text" class="eyebrow">{{PROJECT}} | <span class="section-text">{{SECTION}}</span></div><div data-role="text" class="headline">{{ASSERTION HEADLINE}}</div>
+  <div style="position:absolute;left:520px;top:280px;width:880px;height:630px">
+    <img data-role="image" data-name="part image" src="assets/{{PART_IMAGE}}" style="inset:0;width:880px;height:630px">
+    <div data-role="shape" data-name="attachment 1" style="left:20%;top:30%;width:12px;height:12px;border-radius:50%;background:var(--surface);transform:translate(-6px,-6px)"></div>
+    <div data-role="shape" data-name="attachment 2" style="left:80%;top:65%;width:12px;height:12px;border-radius:50%;background:var(--surface);transform:translate(-6px,-6px)"></div>
+  </div>
+  <div data-role="shape" data-name="leader 1" style="left:420px;top:469px;width:276px;height:0;border-top:2px solid var(--ink)"></div>
+  <div data-role="shape" data-name="leader 2" style="left:1224px;top:689.5px;width:246px;height:0;border-top:2px solid var(--ink)"></div>
+  <div data-role="text" class="label" style="left:90px;top:400px;width:350px">{{FEATURE 1}}</div>
+  <div data-role="text" class="label" style="left:1470px;top:620px;width:360px">{{FEATURE 2}}</div>
+  <!-- Evidence levels are one native table: a longer label grows its row. -->
+  <table data-role="table" data-name="evidence levels" class="label-value-table" style="left:90px;top:650px;width:400px"><colgroup><col style="width:250px"><col style="width:150px"></colgroup><tbody>
+    <tr><td>{{FEATURE 1}}</td><td>{{LEVEL / VALUE · UNIT}}</td></tr>
+    <tr><td>{{FEATURE 2}}</td><td>{{LEVEL / VALUE · UNIT}}</td></tr>
+  </tbody></table>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">{{SOURCE}}</div><div data-role="text" class="footer footer-mark">{{SOURCE CLASSIFICATION}}</div><div data-role="text" class="footer footer-number">{{N}}</div>
+  <aside data-role="notes">{{PRESENTER SCRIPT ≤150 WORDS: POINT · CONTEXT · QUALIFIERS · SOURCE PAGES}}</aside>
+</section>

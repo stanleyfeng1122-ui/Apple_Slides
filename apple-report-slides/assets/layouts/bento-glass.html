@@ -1,0 +1,30 @@
+<!-- BLACK example: data-theme="black" below. WHITE example: change only data-theme="white";
+     use dark smoke on a photo for both. Four tiles are shown; split the wide tile for five.
+     A single sharp, pre-cropped photo includes 70px bleed: 1880×799 for this 1740×659 bento.
+     Rendering prepares the clipped page photo from the tile geometry, with 12px round gutter ends.
+     Keep 40px radii, 24px gutters, padding >=40px; move text to the photo's darkest zones.
+     In a five-tile version the top right tiles are 454px wide at x=898 and 1376. -->
+<section class="page" id="BENTO_GLASS" data-theme="black" data-layout="bento-glass">
+  <div class="backdrop"><img data-role="image" data-bento-bleed="assets/{{PHOTO_WITH_70PX_BLEED}}" src="assets/{{PHOTO_WITH_70PX_BLEED}}" data-lens-box="20,180,1880,799" alt="" style="left:90px;top:250px;width:1740px;height:659px"></div>
+  <div data-role="text" class="eyebrow">{{PROJECT}} | {{SECTION}}</div><div data-role="text" class="headline">{{VERBATIM HEADLINE}}</div>
+  <div class="glass" data-role="glass" data-name="primary tile" data-tone="dark" data-radial=".5" data-tint=".14" style="left:90px;top:250px;width:784px;height:659px">
+    <div data-role="text" class="g-lab" style="left:44px;top:452px;width:696px;height:24px">{{PRIMARY LABEL}}</div>
+    <div data-role="text" class="g-hero" style="left:44px;top:482px;width:696px;height:96px">{{VALUE}}</div>
+  </div>
+  <div class="glass" data-role="glass" data-name="wide tile" data-tone="dark" data-tint=".14" style="left:898px;top:250px;width:932px;height:317px">
+    <div data-role="text" class="g-lab" style="left:40px;top:181px;width:852px;height:24px">{{SECOND LABEL}}</div>
+    <div data-role="text" class="g-mid" style="left:40px;top:209px;width:852px;height:60px">{{VALUE · UNIT}}</div>
+  </div>
+  <div class="glass" data-role="glass" data-name="third tile" data-tone="dark" data-tint=".14" style="left:898px;top:591px;width:454px;height:318px">
+    <div data-role="text" class="g-lab" style="left:40px;top:182px;width:374px;height:24px">{{THIRD LABEL}}</div>
+    <div data-role="text" class="g-mid" style="left:40px;top:210px;width:374px;height:60px">{{VALUE}}</div>
+  </div>
+  <div class="glass" data-role="glass" data-name="fourth tile" data-tone="dark" data-tint=".14" style="left:1376px;top:591px;width:454px;height:318px">
+    <div data-role="text" class="g-lab" style="left:40px;top:182px;width:374px;height:24px">{{FOURTH LABEL}}</div>
+    <div data-role="text" class="g-mid" style="left:40px;top:210px;width:374px;height:60px">{{VALUE}}</div>
+  </div>
+  <div data-role="text" class="caption" data-glass-for="primary tile" style="left:90px;top:938px;width:1740px;height:28px">{{UNIT / CAPTION · ADDITIONAL SUPPLIED LABELS}}</div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">{{SOURCE}}</div><div data-role="text" class="footer footer-mark">{{SOURCE CLASSIFICATION}}</div><div data-role="text" class="footer footer-number">{{N}}</div>
+  <aside data-role="notes">{{POINT · CONTEXT · QUALIFIERS · SOURCE PAGES}}
+Glass is a baked picture: rebuild the deck after moving it, editing what is under it, or lengthening its text.</aside>
+</section>
