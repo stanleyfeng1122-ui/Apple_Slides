@@ -34,6 +34,8 @@ body {font-family:var(--font-body); color:var(--ink); -webkit-font-smoothing:ant
 .page[data-theme] .headline {top:104px;height:78px;font-size:64px!important;line-height:76px!important;letter-spacing:-.5px}
 .backdrop {position:absolute;inset:0}
 .bento-tile {border-radius:40px;background:var(--surface)}
+.image-needed {border:2px dashed #A1A1A6;border-radius:var(--image-radius,var(--radius));background:transparent;display:flex;align-items:center;justify-content:center;padding:40px;font-size:20px;line-height:28px;font-weight:400;color:var(--muted);text-align:center;white-space:normal}
+/* Native editable placeholder: <div data-role="shape" class="image-needed" style="left:90px;top:250px;width:858px;height:680px;--image-radius:40px">Image needed: {{WHAT IT SHOULD SHOW}}</div> */
 .plain-callout {height:48px;padding:10px 20px;border-radius:24px;background:#1D1D1F;color:#FFF;font-size:22px;line-height:28px;font-weight:600;white-space:nowrap;text-align:center}
 .grid {display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--gutter)}
 [data-role="text"] {position:absolute; white-space:pre-line; font-size:22px; line-height:28px; font-weight:400}
@@ -130,11 +132,13 @@ function drawChart(el) {
   function label(x,y,bw,text,align='left',weight=400) {return box(x,y,bw,30,`font-size:${d.label_size||20}px;line-height:28px;font-weight:${weight};color:${d.label_color||'#3c3c3e'};text-align:${align}`,text);}
   // Same as the converter: six-digit values show thousands ("400K") on axis and labels.
   const compact=!stacked && d.series.some(s=>s.values.some(v=>Math.abs(v)>=100000));
-  function fmt(v) {if(compact) return Math.round(v/1000).toLocaleString('en-US')+'K';const decimals=(d.number_format||'0').split('.')[1]?.replace(/[^0#]/g,'').length||0;return (v*((d.number_format||'').includes('%')?100:1)).toLocaleString('en-US',{minimumFractionDigits:decimals,maximumFractionDigits:decimals})+((d.number_format||'').includes('%')?'%':'');}
+  const tickStep=d.major_unit||((max-min)/4), tickScale=(d.number_format||'').includes('%')?100:1;
+  const wholeTicks=[min*tickScale,tickStep*tickScale].every(v=>Math.abs(v-Math.round(v))<1e-9);
+  function fmt(v,axis=false) {if(compact) return Math.round(v/1000).toLocaleString('en-US')+'K';const decimals=axis&&wholeTicks?0:((d.number_format||'0').split('.')[1]?.replace(/[^0#]/g,'').length||0);return (v*tickScale).toLocaleString('en-US',{minimumFractionDigits:decimals,maximumFractionDigits:decimals})+((d.number_format||'').includes('%')?'%':'');}
   if(axes) for(let i=0;i<=Math.floor((max-min)/(d.major_unit||((max-min)/4)));i++) {
     const v=min+(d.major_unit||((max-min)/4))*i, fraction=(v-min)/(max-min);
-    if(horizontal) {box(L+pw*fraction,T,1,ph,'background:#d2d2d7');label(L+pw*fraction-45,T+ph+12,90,stacked?v+'%':fmt(v),'center');}
-    else {box(L,T+ph-ph*fraction,pw,1,'background:#d2d2d7');label(0,T+ph-ph*fraction-14,L-16,stacked?v+'%':fmt(v),'right');}
+    if(horizontal) {box(L+pw*fraction,T,1,ph,'background:#d2d2d7');label(L+pw*fraction-45,T+ph+12,90,stacked?v+'%':fmt(v,true),'center');}
+    else {box(L,T+ph-ph*fraction,pw,1,'background:#d2d2d7');label(0,T+ph-ph*fraction-14,L-16,stacked?v+'%':fmt(v,true),'right');}
   }
   d.categories.forEach((category,i)=>{
     const band=(horizontal?ph:pw)/n, mid=band*(i+.5);

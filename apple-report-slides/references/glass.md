@@ -6,6 +6,8 @@ Optional material, ported from the verified round-5 prototype. The full build is
 
 ## 1. When to use it, and when never to
 
+**Photo fit comes first.** Photo-backed glass is built only over a picture that shows the slide's subject, from supplied material or the output discussed. Never choose an atmospheric photo to make glass possible. If none matches, keep a visible `.image-needed` shape and use plain `bento-plain` tiles or plain capsules beside it. Keep the caption unobstructed, list the image in `outline.md`, and ask the user for it. Rebuild with glass after the matching photo arrives. Chart-body glass remains subject to §4.
+
 **Use glass only where it has something to bend.** A high-contrast structure has to cross the rim. Examples: a photo, a product or part render, or the body of a chart bar.
 - **Information only:** the converter prints ΔL* as p95−p5 of CIE L* in each sampled rim band, without a threshold warning. A straight structural edge must cross a cap or rim; random texture can pass this number and still fail the 50% visual test.
 - Judged glass capsules also worked at ΔL* 20. Contrast spread does not establish refraction; inspect the structural edge at 50%.
@@ -138,7 +140,7 @@ Tone follows the content under the box, not the page.
 
 ## 10. Plain bento, including a whole-photo fallback
 
-No photo means no glass. Use native rounded rectangles, 40 px radius and 24 px gutters, fill #1D1D1F on black and #F5F5F7 on white. Keep the same text sizes, inset ≥40 px, word ceiling, source fidelity and evidence rules. Use theme ink and muted tokens; status and source identity retain their separate roles.
+No matching photo means no glass. Keep an `.image-needed` slot with its centred caption visible; arrange plain native tiles beside or below it. Use native rounded rectangles, 40 px radius and 24 px gutters, fill #1D1D1F on black and #F5F5F7 on white. Keep the same text sizes, inset ≥40 px, word ceiling, source fidelity and evidence rules. Use theme ink and muted tokens; status and source identity retain their separate roles. For `glass-callouts`, keep the capsule geometry with a native solid fill and editable text, beside the placeholder. Rebuild with glass when the user supplies the matching photo.
 
 If every searched combination exceeds .25, show the photo whole in one uncovered rounded tile and put native `bento-plain` text tiles beside or below it on the page. Use the registered `with-photo-tile` variant. Never place opaque tiles over the photo or leave photographic slivers in gutters.
 

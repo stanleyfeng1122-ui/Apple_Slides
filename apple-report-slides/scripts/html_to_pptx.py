@@ -159,6 +159,7 @@ EXTRACT = r"""page => {
   function identity(el) {
     const card=el.closest('.card');
     return {name:el.dataset.name||el.className||el.dataset.role,
+      imageNeeded:el.classList.contains('image-needed'),
       title:el.classList.contains('headline'),slideNumber:el.classList.contains('footer-number'),
       group:card ? cards.indexOf(card) : null,
       groupName:card ? card.dataset.name||`card ${cards.indexOf(card)+1}` : null};
@@ -433,7 +434,7 @@ def add_shape(slide, item):
         shape.text_frame.margin_right = pt(right)
         shape.text_frame.margin_bottom = pt(bottom)
         shape.text_frame.margin_left = pt(left)
-        if item.get('name', '').startswith('callout') or 'plain-callout' in str(item.get('name', '')):
+        if item.get('imageNeeded') or item.get('name', '').startswith('callout') or 'plain-callout' in str(item.get('name', '')):
             shape.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
             shape.text_frame.margin_top = shape.text_frame.margin_bottom = 0
     return shape
@@ -559,7 +560,18 @@ def add_chart(slide, item):
         chart.category_axis.visible = True
         chart.value_axis.visible = True
         chart.value_axis.has_major_gridlines = True
-        chart.value_axis.tick_labels.number_format = '0%' if stacked else item.get('valueFormat', data.get('number_format', '0'))
+        axis_format = item.get('valueFormat', data.get('number_format', '0'))
+        if not stacked and re.fullmatch(r'[#0,]+(?:\.[0#]+)?%?', axis_format) and not axis_format.endswith(','):
+            # Automatic native tick spacing is not the HTML view's range / 4.
+            # General keeps automatic numeric ticks precise without trailing .0.
+            if 'major_unit' not in data and '%' not in axis_format:
+                axis_format = 'General'
+            elif 'major_unit' in data:
+                tick_scale = 100 if '%' in axis_format else 1
+                ticks = (chart.value_axis.minimum_scale, data['major_unit'])
+                if all(abs(v * tick_scale - round(v * tick_scale)) < 1e-9 for v in ticks):
+                    axis_format = re.sub(r'\.[0#]+', '', axis_format)
+        chart.value_axis.tick_labels.number_format = '0%' if stacked else axis_format
         chart.value_axis.tick_labels.number_format_is_linked = False
         if 'major_unit' in data and not stacked:
             chart.value_axis.major_unit = data['major_unit']

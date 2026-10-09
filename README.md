@@ -9,6 +9,7 @@ Most AI slide skills produce decks that look AI-made: decorative, brief and hard
 - **Native PowerPoint:** text, tables, charts and shapes stay editable, and every slide has a speaker-notes script.
 - **16 layouts:** status summary, milestone timeline, goal progress, figure callouts, peer columns, chart interpretation, multi-year table, decision tables, evidence actions, bento and others.
 - **Density rules per slide:** at least 10 labelled values in 2–4 evidence objects, at most 90 words, headlines of 8 words or fewer, body type of at least 18 px.
+- **Pictures that fit the slide:** every photo shows what its slide is about. If you supply none, the slide gets an editable "Image needed" placeholder, and the agent asks you for the photo.
 - **Optional Liquid Glass:** baked glass faces with native text on top, for photo-backed summary slides. It falls back to a clean layout when a photo is too busy.
 
 ## Requirements

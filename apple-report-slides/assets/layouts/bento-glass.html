@@ -1,4 +1,11 @@
-<!-- BLACK example: data-theme="black" below. WHITE example: change only data-theme="white";
+<!-- PHOTO FIT: use glass only over a supplied photo of the slide's subject.
+     If none matches, retain data-layout="bento-glass" with data-variant="image-needed; plain",
+     replace the backdrop image with the template's .image-needed data-role="shape" slot,
+     and arrange native bento-plain tiles beside it using .card + .bento-tile + native text.
+     Remove every .glass class, data-role="glass" and lens attribute in that plain version.
+     Keep the centred placeholder caption uncovered; list it in outline.md and ask the user.
+     Rebuild with glass only after the matching photo arrives.
+     BLACK example: data-theme="black" below. WHITE example: change only data-theme="white";
      use dark smoke on a photo for both. Four tiles are shown; split the wide tile for five.
      A single sharp, pre-cropped photo includes 70px bleed: 1880×799 for this 1740×659 bento.
      Rendering prepares the clipped page photo from the tile geometry, with 12px round gutter ends.

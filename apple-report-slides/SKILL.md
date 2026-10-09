@@ -45,6 +45,12 @@ Read [the layout registry](references/layouts.md), then use [the template](asset
 
 ## Fit, figures and rhythm
 
+- Make every picture, background photo and photo tile show what its slide is about: the product, part, site, process, data or output it discusses.
+- Never use a photo for atmosphere or only because it came from the source.
+- Take pictures from the supplied material or from outputs the deck describes.
+- Leave an `.image-needed` placeholder when no picture matches.
+- List every placeholder under `Images needed` in `outline.md`, with its slide and what it should show.
+- Ask the user for the missing pictures in the final reply.
 - 1920×1080 stage, 90 px side margins, 24 px gutters; evidence ends by y=980, footer rule y=1004. SF Pro Display/Text. Body 18–22 px; table numbers 18–22 px regular, totals bold; headlines 64–68 px. Restructure if crowded.
 - **Value hierarchy:** `.value` and `.formula` use SF Pro Display, 32–44 px, weight 600–700; `.hero` uses 72–96 px, weight 600–700. `.label` sits above the value at 16–18 px, weight 600, uppercase, muted `#6E6E73`. `.caption` is 18–20 px, regular, muted. A value is never the same size and weight as its label. Use these classes in every applicable snippet.
 - Heading→body gap ≤half inter-group gap (defaults 8 / 48 px). Cards have 32 px padding on every side; their evidence stays inside. Tables on one slide share column edges.
@@ -101,6 +107,7 @@ Use only when a straight backdrop edge crosses a cap or rim and visibly bends at
 | Any CAD, dimensioned or engineering figure | plain callouts | white | native #1D1D1F pill; no glass |
 
 - Set `data-theme="black"` or `"white"` per page; report remains the default. Tone follows the content beneath each box. Copy `glass.js` and `glass.css` beside the deck when resolving the template's local asset paths.
+- Build photo-backed glass only over a matching photo. With an image placeholder, use plain `bento-plain` tiles or plain capsules, keeping the placeholder caption visible. Rebuild with glass when the user supplies the matching photo. Chart-body capsules keep their chart-specific rules.
 - Use 1–2 glass slides per section, never an evidence slide. A chart takeaway may have at most two capsules on column bodies, neither repeating the headline number; protect bar tops, axes, labels and limits. No glass on tables, precise plots, defect images or small text.
 - At least 70% of every glass face sits over content; capsule caps may overhang the page. Bento tiles are fully backed by one continuous photo, 70 px lens bleed, 40 px radii and 24 px gutters with round ends; text padding ≥radius. No photo means plain bento (#1D1D1F on black / #F5F5F7 on white), with the same text rules.
 - Use `bento-glass`, `bento-plain` or `glass-callouts`; the chart snippet includes an optional column-body capsule. Glass callouts are capsules ≥88 px tall; any engineering figure uses plain 48 px native pills. These optional layouts override ordinary card fill/radius defaults only.
