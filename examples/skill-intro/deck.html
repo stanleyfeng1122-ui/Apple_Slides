@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file: 'unsafe-inline'; style-src 'self' file: 'unsafe-inline'; img-src file: data:; font-src 'self' data:; connect-src 'none'">
+<title>Report Slides skill — style catalogue</title>
+<link rel="stylesheet" href="glass.css">
+<style>
+:root {
+  --paper:#f3f2f5; --surface:#ffffff; --ink:#3c3c3e;
+  --muted:#6e6e73; --rule:#d2d2d7; --footer:var(--muted); --confidentiality:var(--muted); --accent:#0071E3;
+  --font-body:"SF Pro Text","SF Pro","Helvetica Neue",sans-serif;
+  --font-display:"SF Pro Display","SF Pro","Helvetica Neue",sans-serif;
+  --s1:8px; --s2:12px; --s3:24px; --s4:32px; --s5:48px; --s6:72px;
+  --margin:90px; --gutter:24px; --radius:32px;
+  --body-min:18px; --cell-min:16px; --label-min:14px;
+  --section:var(--ink); --section-text:var(--ink);
+  --status-achieved:#00cc2d; --status-achieved-text:#006b1b;
+  --status-progress:#8e8e93; --status-risk:#ff9f0a; --status-risk-text:#8a5200;
+  --status-blocked:#ff3b30; --status-blocked-text:#b3261e; --status-open:#d2d2d7;
+  --card-padding:32px; --heading-gap:8px; --group-gap:48px;
+}
+* {box-sizing:border-box; margin:0; padding:0}
+html,body {width:100%; height:100%; overflow:hidden; background:#e5e5e8}
+body {font-family:var(--font-body); color:var(--ink); -webkit-font-smoothing:antialiased}
+#stage {width:1920px; height:1080px; position:absolute; transform-origin:top left}
+.page {position:absolute; inset:0; width:1920px; height:1080px; background:var(--paper); color:var(--ink); visibility:hidden}
+.page.active {visibility:visible}
+.page[data-theme="black"] {--paper:#000;--surface:#1D1D1F;--ink:#F5F5F7;--muted:#A1A1A6;--rule:#3A3A3C;--footer:#A1A1A6;--confidentiality:#A1A1A6;--section:var(--ink);--section-text:var(--ink)}
+.page[data-theme="white"] {--paper:#FFF;--surface:#F5F5F7;--ink:#1D1D1F;--muted:#6E6E73;--rule:#D2D2D7;--footer:#6E6E73;--confidentiality:#6E6E73}
+.page[data-theme="black"] .pill,.page[data-theme="black"] .status-pill {color:#1D1D1F}
+.page[data-theme="black"] tr.section,.page[data-theme="black"] tr.highlight {background:#2C2C2E}
+.page[data-theme] .headline {top:104px;height:78px;font-size:64px!important;line-height:76px!important;letter-spacing:-.5px}
+.backdrop {position:absolute;inset:0}
+.bento-tile {border-radius:40px;background:var(--surface)}
+.image-needed {border:2px dashed #A1A1A6;border-radius:var(--image-radius,var(--radius));background:transparent;display:flex;align-items:center;justify-content:center;padding:40px;font-size:20px;line-height:28px;font-weight:400;color:var(--muted);text-align:center;white-space:normal}
+.plain-callout {height:48px;padding:10px 20px;border-radius:24px;background:#1D1D1F;color:#FFF;font-size:22px;line-height:28px;font-weight:600;white-space:nowrap;text-align:center}
+.grid {display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--gutter)}
+[data-role="text"] {position:absolute; white-space:pre-line; font-size:22px; line-height:28px; font-weight:400}
+.eyebrow {left:90px; top:60px; width:1740px; height:28px; color:var(--muted); font-size:20px!important; line-height:28px!important}
+.headline {left:90px; top:110px; width:1740px; height:82px; font-family:var(--font-display); font-size:68px!important; line-height:78px!important; font-weight:700!important}
+.subtitle {left:90px; top:202px; width:1740px; height:38px; font-size:26px!important; line-height:34px!important}
+[data-role="shape"] {position:absolute}
+[data-role="image"] {position:absolute; object-fit:contain}
+.status-pill {display:inline-block; border-radius:18px; padding:5px 14px; font-size:18px; line-height:24px; background:var(--status-open); color:var(--ink)}
+.panel {background:var(--surface); border-radius:var(--radius)}
+.rule {background:var(--rule)}
+.accent {background:var(--accent)}
+.muted {color:var(--muted)}
+sup {font-size:14px; line-height:0; vertical-align:super}
+.footnote {font-size:16px; line-height:22px}
+.label {font-size:18px!important; line-height:24px!important; font-weight:600!important; text-transform:uppercase; color:var(--muted)}
+.caption {font-size:20px!important; line-height:28px!important; font-weight:400!important; color:var(--muted)}
+.value,.formula {font-family:var(--font-display); font-size:40px!important; line-height:48px!important; font-weight:650!important}
+.hero {font-family:var(--font-display); font-size:88px!important; line-height:98px!important; font-weight:700!important}
+.connective {font-size:20px!important; line-height:28px!important; font-weight:600!important; color:var(--accent)}
+.identity-rule {height:6px; background:var(--identity,var(--section))}
+.peer-divider {width:1px; background:var(--rule)}
+.section-card {background:var(--surface); border-radius:var(--radius)}
+.pill {background:var(--ink); color:white; border-radius:24px; padding:7px 15px; font-size:18px; line-height:24px; text-align:center}
+.display {font-family:var(--font-display)}
+.metric {font-family:var(--font-display); font-weight:700!important; font-size:48px!important; line-height:58px!important}
+table {position:absolute; border-collapse:collapse; table-layout:fixed; font-size:22px; line-height:28px; background:var(--surface)}
+th,td {padding:16px 24px; text-align:left; vertical-align:top; font-weight:400; border-left:none; border-right:none; border-bottom:1px solid var(--rule)}
+th {color:var(--muted); font-size:20px; line-height:26px; background:var(--paper)}
+tbody tr:last-child td {border-bottom:0}
+tr.section {background:#eeeeF0; font-weight:700}
+tr.section td {font-weight:700; border-top:2px solid #aaaaae}
+tr.total td {font-weight:700; border-top:2px solid #aaaaae}
+tr.highlight {background:#eeeeF0}
+.numeric {text-align:right; font-variant-numeric:tabular-nums}
+.emphasis {font-weight:700}
+.footer {top:1022px; height:26px; font-size:18px!important; line-height:24px!important; color:var(--footer)}
+[data-role="notes"] {display:none}
+[data-layout="multi-year-table"] table {font-size:18px; line-height:23px}
+[data-layout="multi-year-table"] td,[data-layout="multi-year-table"] th {padding:4px 10px; font-size:18px; line-height:23px}
+[data-layout="site-data"] table {font-size:20px; line-height:26px}
+[data-layout="site-data"] td,[data-layout="site-data"] th {padding:7px 12px; font-size:20px; line-height:26px}
+/* Groups: heading-to-body is 8px; separate groups have at least 48px. */
+.group {position:absolute}
+.group > .group-title {position:relative; font-size:28px; line-height:34px; font-weight:700}
+.group > .group-body {position:relative; margin-top:var(--heading-gap); font-size:22px; line-height:30px}
+/* Background and inset content are distinct so both convert to native objects. */
+.card {position:absolute}
+.card > .panel {inset:0; border-radius:var(--radius)}
+.card > .card-content {position:absolute; inset:var(--card-padding)}
+.card-content [data-role="text"] {max-width:100%}
+.section-heading {font-size:28px!important; line-height:34px!important; font-weight:700!important}
+.big-number {font-family:var(--font-display); font-size:88px!important; line-height:98px!important; font-weight:700!important}
+.evidence-label {font-size:22px!important; line-height:30px!important}
+.source-tag {font-size:18px!important; line-height:24px!important; color:var(--muted)}
+.category-text {color:var(--ink)}
+.section-text {color:var(--section-text)}
+.bottom-note {left:90px; top:956px; width:1740px; height:24px; font-size:18px!important; line-height:24px!important}
+.footer-rule {left:90px; top:1004px; width:1740px; height:1px; background:var(--rule)}
+.footer-source {left:90px; width:1330px}
+.footer-mark {color:var(--confidentiality);left:1450px; width:290px; text-align:right}
+.footer-number {left:1760px; width:70px; text-align:right}
+.report-table th,.report-table td {font-size:22px!important; line-height:28px!important; padding:16px 22px!important}
+.compact-table th,.compact-table td {font-size:20px!important; line-height:26px!important; padding:15px 16px!important}
+.row-rule {height:1px; background:var(--rule)}
+.actions-content {position:absolute;left:90px;top:260px;width:1740px;height:684px;display:flex;flex-direction:column;gap:28px}
+.actions-content > table {position:relative;width:100%;flex:none}
+.actions-content th,.actions-content td {line-height:1.5!important}
+.actions-content > .ask-card {position:relative;width:100%;flex-shrink:0}
+.ask-card > .card-content {position:relative;inset:auto;padding:var(--card-padding);display:flex;flex-direction:column;gap:32px}
+.ask-card .card-content > [data-role="text"] {position:relative;width:100%;color:var(--ink)}
+.label-value-table {background:transparent}
+.label-value-table th,.label-value-table td {padding:14px 0;font-size:22px;line-height:28px;background:transparent}
+.label-value-table td:first-child {padding-right:16px}
+.label-value-table td:last-child {text-align:right;font-weight:600}
+/* Deck-local geometry for the approved comparison, timeline and usage sequence. */
+.why-list,.style-list,.use-list {background:transparent}
+.why-list td {padding:16px 0;font-size:28px;line-height:36px}
+.why-list td:first-child {font-size:20px;line-height:36px;color:var(--muted)}
+.style-list td {padding:6px 0;font-size:20px;line-height:28px}
+.timeline-step {position:absolute;top:326px;width:228px;height:292px}
+.timeline-step .date {top:0;width:228px;text-align:center;font-size:20px;line-height:28px;color:var(--muted)}
+.timeline-step .node {left:105px;top:75px;width:18px;height:18px;border-radius:50%;background:var(--section)}
+.timeline-step .result {top:132px;width:228px;text-align:center}
+.timeline-step .action {top:202px;width:228px;text-align:center;font-size:22px;line-height:28px}
+.final-step .node {background:var(--accent)}
+.final-step .result {color:var(--accent)}
+.use-column {top:270px;width:417px;height:670px}
+.use-column > .identity-rule {width:417px;background:var(--rule)}
+.use-column .step-number {width:353px}
+.use-column .step-title {top:66px;width:353px}
+.use-list {left:0;top:144px;width:353px}
+.use-list td {padding:12px 0;font-size:22px;line-height:44px}
+.use-list .value {font-size:36px!important;line-height:44px!important}
+.use-column .need {top:576px;width:353px;font-size:20px;line-height:28px;color:var(--muted)}
+
+.paired-list td {line-height:40px;vertical-align:middle}
+.paired-list .value {font-size:32px!important;line-height:40px!important}
+
+.renderer-table td {padding:16px 12px!important;line-height:28px!important}
+</style>
+</head>
+<body>
+<main id="stage">
+<section class="page" id="S01" data-layout="title-evidence" data-variant="default">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">Why</span></div>
+ <div data-role="text" style="left:90px;top:204px;width:980px;font:700 112px/116px var(--font-display)">Report Slides skill</div>
+ <div data-role="text" style="left:1178px;top:688px;width:652px;font-size:32px;line-height:42px">Aug 27 – Oct 8, 2026</div>
+ <div data-role="shape" class="row-rule" style="left:90px;top:618px;width:960px"></div>
+ <div data-role="text" style="left:90px;top:674px;width:920px;font-size:28px;line-height:52px">Why<br>How and when<br>How to use</div>
+ <div class="card" style="left:1178px;top:226px;width:652px;height:326px"><div data-role="shape" class="panel"></div><div class="card-content">
+ <div data-role="text" class="label" style="width:588px">Layouts</div><div data-role="text" class="hero" style="top:64px;width:588px">16</div><div data-role="text" class="caption" style="top:186px;width:588px">Report Slides skill</div></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">1</div>
+ <aside data-role="notes">title-evidence · default. This catalogue follows the approved introduction: why the skill exists, how it developed, and how to use it. It places that same content in each registered layout, including the optional photo and glass treatments. The period runs from the first build to the current catalogue. The layout count describes the skill's available families. This is a chapter opener and is exempt from the content-slide evidence floor. Source: R11 input, S01 and fact sheet.</aside>
+</section>
+<section class="page" id="S02" data-layout="status-summary" data-variant="default">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">Why</span></div><div data-role="text" class="headline">The real-deck pilot is next</div>
+ <div class="card" data-name="Apple style rules" style="left:90px;top:260px;width:1160px;height:142px"><div data-role="shape" class="panel"></div><div class="card-content"><div data-role="text" class="label" style="width:290px">Apple style rules</div><div data-role="shape" class="status-pill" style="left:318px;background:#ddf8e3;color:#006b1b">Done</div><div data-role="text" class="value" style="left:520px;width:210px">16</div><div data-role="text" class="caption" style="left:780px;width:316px">traits measured</div></div></div>
+ <div class="card" data-name="Edit-proof PowerPoint" style="left:90px;top:418px;width:1160px;height:142px"><div data-role="shape" class="panel"></div><div class="card-content"><div data-role="text" class="label" style="width:290px">Edit-proof PowerPoint</div><div data-role="shape" class="status-pill" style="left:318px;background:#ddf8e3;color:#006b1b">Done</div><div data-role="text" class="value" style="left:520px;width:210px">0</div><div data-role="text" class="caption" style="left:780px;width:316px">content changes</div></div></div>
+ <div class="card" data-name="Liquid Glass" style="left:90px;top:576px;width:1160px;height:142px"><div data-role="shape" class="panel"></div><div class="card-content"><div data-role="text" class="label" style="width:290px">Liquid Glass</div><div data-role="shape" class="status-pill" style="left:318px;background:#ddf8e3;color:#006b1b">Done</div><div data-role="text" class="value" style="left:520px;width:210px">8/8</div><div data-role="text" class="caption" style="left:780px;width:316px">judged real</div></div></div>
+ <div class="card" data-name="Real-deck pilot" style="left:90px;top:734px;width:1160px;height:142px"><div data-role="shape" class="panel"></div><div class="card-content"><div data-role="text" class="label" style="width:290px">Real-deck pilot</div><div data-role="shape" class="status-pill" style="left:318px">Next</div><div data-role="text" class="value" style="left:520px;width:230px">≤15 min</div><div data-role="text" class="caption" style="left:780px;width:316px">edit target</div></div></div>
+ <div class="group" style="left:1310px;top:286px;width:520px"><div data-role="text" class="group-title label">Top risk</div><div data-role="text" class="group-body">Keynote import untested by script.</div></div>
+ <div class="card ask-card" style="left:1280px;top:520px;width:550px"><div data-role="shape" class="panel"></div><div class="card-content"><div data-role="text" class="section-heading">Choose one live report</div><div data-role="text">Owner · date TBD<br>Unlock the editing pilot.</div></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">2</div>
+ <aside data-role="notes">status-summary · default. The status words are supplied by the approved fact sheet. Done describes the existing style, edit-proofing and glass work, not acceptance of this newly generated catalogue. The remaining decision is to choose a live report and measure the presenter's editing time. The date is not supplied. The Keynote limitation concerns scripted import on this Mac. Source: R11 input, S02 and fact sheet.</aside>
+</section>
+
+
+
+<section class="page" id="S03" data-layout="bento-glass" data-variant="image-needed; plain tiles" data-theme="black">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">Why</span></div><div data-role="text" class="headline">The first build needed a restart</div>
+ <div data-role="shape" class="image-needed" data-name="first build image needed" style="left:90px;top:250px;width:858px;height:690px;--image-radius:40px">Image needed: a slide from the first AI-built version that is safe to show</div>
+ <div class="card" data-name="first build" style="left:972px;top:250px;width:858px;height:214px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="label" style="left:40px;top:40px;width:778px">First build · runs accepted</div><div data-role="text" class="g-big" style="left:40px;top:84px;width:778px">0/9</div></div>
+ <div class="card" data-name="blind vote" style="left:972px;top:488px;width:858px;height:214px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="label" style="left:40px;top:40px;width:778px">Blind vote · picked best</div><div data-role="text" class="g-big" style="left:40px;top:84px;width:778px">0 of 5</div></div>
+ <div class="card" data-name="measured restart" style="left:972px;top:726px;width:858px;height:214px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="label" style="left:40px;top:40px;width:778px">Style traits measured</div><div data-role="text" class="g-big" style="left:40px;top:84px;width:778px">16</div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">3</div>
+ <aside data-role="notes">bento-glass · image-needed; plain tiles · black. The first AI-built version had no accepted validation runs, and it was not preferred in the blind vote against Owner's slides. The restart measured the Apple references instead of adding more process. A safe-to-show slide from the first version is needed. The placeholder and text tiles are native shapes; rebuild with glass after the matching image is supplied. Source: R11 input S06 and fact sheet. This source-limited catalogue page is retained without padding.</aside>
+</section>
+<section class="page" id="S04" data-variant="7 nodes" data-layout="milestone-timeline">
+  <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How and when</span></div>
+  <div data-role="text" class="headline">Apple's reports set the rules, tested in PowerPoint</div>
+  <div data-role="shape" data-name="timeline rule" style="left:204px;top:410px;width:1512px;height:0;border-top:2px solid var(--rule)"></div>
+  <div class="timeline-step" style="left:90px"><div data-role="text" class="date">Aug 27–Sep 12</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">0/9</div><div data-role="text" class="action">first AI build: runs accepted</div></div>
+  <div class="timeline-step" style="left:342px"><div data-role="text" class="date">Sep 15–17</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">16</div><div data-role="text" class="action">Apple style traits measured</div></div>
+  <div class="timeline-step" style="left:594px"><div data-role="text" class="date">Sep 17–22</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">~110 → ~46</div><div data-role="text" class="action">median words per slide</div></div>
+  <div class="timeline-step" style="left:846px"><div data-role="text" class="date">Sep 27–28</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">6/6</div><div data-role="text" class="action">held-out test passed</div></div>
+  <div class="timeline-step" style="left:1098px"><div data-role="text" class="date">Sep 28–30</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">8/8</div><div data-role="text" class="action">Liquid Glass judged real</div></div>
+  <div class="timeline-step" style="left:1350px"><div data-role="text" class="date">Oct 2–8</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">0</div><div data-role="text" class="action">changes after save → reopen</div></div>
+  <div class="timeline-step final-step" style="left:1602px"><div data-role="text" class="date">Oct</div><div data-role="shape" class="node"></div><div data-role="text" class="value result">≤15 min</div><div data-role="text" class="action">real-deck pilot edits</div></div>
+  <div class="card" data-name="Roles and test rounds" style="left:90px;top:742px;width:1740px;height:190px"><div data-role="shape" class="panel"></div><div class="card-content">
+    <div data-role="text" class="value" style="left:0;top:4px;width:360px">Owner</div><div data-role="text" class="caption" style="left:0;top:64px;width:360px">goal, judgement</div>
+    <div data-role="shape" class="peer-divider" style="left:404px;top:4px;height:94px"></div>
+    <div data-role="text" class="value" style="left:444px;top:4px;width:360px">Claude</div><div data-role="text" class="caption" style="left:444px;top:64px;width:360px">plan, PowerPoint checks</div>
+    <div data-role="shape" class="peer-divider" style="left:848px;top:4px;height:94px"></div>
+    <div data-role="text" class="value" style="left:888px;top:4px;width:360px">Codex</div><div data-role="text" class="caption" style="left:888px;top:64px;width:360px">build runs</div>
+    <div data-role="shape" class="peer-divider" style="left:1292px;top:4px;height:94px"></div>
+    <div data-role="text" class="value" style="left:1332px;top:4px;width:344px">~25</div><div data-role="text" class="caption" style="left:1332px;top:64px;width:344px">test rounds</div>
+  </div></div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill tracker and test records, Aug–Oct 2026</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">4</div>
+  <aside data-role="notes">milestone-timeline · 7 nodes. The first attempt asked AI to build the skill directly, from Aug 27 to Sep 12. It drowned in process: none of nine validation runs were accepted. In a blind vote, its slides were picked best zero of five times against Owner's own. We restarted by measuring Apple's pages and building in short runs. Median words per slide fell from 110.5 to 45.5 (R3 → R5, same count method), with 112 of 112 distinct numbers kept. Glass judges saw decoys and passed none of the 12. Every pass rule existed before its test. The final October node is the next step and an acceptance target, not a completed result. Sources: approved R10 input, slide 2; tracker and test records, Aug–Oct 2026.</aside>
+</section>
+<section class="page" id="S05" data-layout="chart-interpretation" data-variant="column-body-kpi" data-theme="white">
+ <div data-role="text" class="eyebrow">Report Slides skill | How and when</div><div data-role="text" class="headline">Word counts fell while numbers stayed</div><div data-role="text" class="subtitle">Median counted words per slide · same count method</div>
+ <div class="backdrop"><div data-role="chart" data-name="median words by round" style="position:absolute;left:90px;top:310px;width:1120px;height:570px" data-chart='{"type":"column","categories":["R3","R4","R5"],"series":[{"name":"Median words","values":[110.5,60,45.5],"color":"#91BCEB","point_colors":["#91BCEB","#91BCEB","#0071E3"]}],"min":0,"max":150,"axis_max":150,"major_unit":50,"gap":30,"category_labels":true,"data_labels":true,"number_format":"0.0","label_size":22}'></div></div>
+ <div class="glass" data-role="glass" data-name="word ceiling" data-tone="light" data-tint=".06" data-tint-base=".06" style="left:186px;top:588px;width:286px;height:136px;border-radius:68px"><div data-role="text" class="g-lab" style="left:33px;top:22px;width:220px;height:24px;text-align:center">R3 → R5</div><div data-role="text" class="g-val" style="left:33px;top:52px;width:220px;height:52px;text-align:center">−59%</div></div>
+ <div class="group" style="left:1310px;top:350px;width:520px"><div data-role="text" class="group-title label">Numbers kept</div><div data-role="text" class="group-body value">112/112</div></div>
+ <div class="group" style="left:1310px;top:590px;width:520px"><div data-role="text" class="group-title label">Counted-word ceiling</div><div data-role="text" class="group-body value">90</div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">5</div>
+ <aside data-role="notes">chart-interpretation · column-body-kpi · white. The native column chart uses the same count method for the three rounds. The distinct-number retention figure refers to R3 through R5. The capsule reports the change from 110.5 in R3 to 45.5 in R5: (45.5 − 110.5) / 110.5 = −58.8%, rounded to −59%. The ceiling stays beside the chart. Axis ticks are scale graduations, not additional source measurements. Source: R11 input S08 and fact sheet.
+Glass is a baked picture: rebuild the deck after moving it, editing what is under it, or lengthening its text.</aside>
+</section>
+<section class="page" id="S06" data-layout="goal-progress" data-variant="default">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How and when</span></div><div data-role="text" class="headline">Validation advances; pilot edits remain unmeasured</div>
+ <div data-role="shape" class="section-card" style="left:90px;top:250px;width:1740px;height:690px"></div><div data-role="text" class="section-heading" style="left:122px;top:282px;width:900px">Results and remaining target</div>
+ <div class="card" data-name="perspectives" style="left:90px;top:344px;width:1740px;height:144px"><div class="card-content"><div data-role="text" class="label" style="width:460px">Perspectives validated</div><div data-role="shape" style="left:510px;top:8px;width:650px;height:28px;background:#e6e6eb"></div><div data-role="shape" style="left:510px;top:8px;width:520px;height:28px;background:var(--accent)"></div><div data-role="shape" style="left:1160px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div><div data-role="text" class="value" style="left:930px;top:48px;width:200px;text-align:center;font-size:32px!important">8 of 10</div><div data-role="text" class="caption" style="left:1210px;width:180px">10 total</div><div data-role="shape" class="status-pill" style="left:1430px;background:#ddf8e3;color:#006b1b">Validated</div></div></div>
+ <div class="card" data-name="glass judged real" style="left:90px;top:494px;width:1740px;height:144px"><div class="card-content"><div data-role="text" class="label" style="width:460px">Glass judged real</div><div data-role="shape" style="left:510px;top:8px;width:650px;height:28px;background:#e6e6eb"></div><div data-role="shape" style="left:510px;top:8px;width:650px;height:28px;background:var(--section)"></div><div data-role="shape" style="left:1160px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div><div data-role="text" class="value" style="left:1060px;top:48px;width:200px;text-align:center;font-size:32px!important">8/8</div><div data-role="text" class="caption" style="left:1210px;width:180px">8 boxes</div><div data-role="shape" class="status-pill" style="left:1430px;background:#ddf8e3;color:#006b1b">Done</div></div></div>
+ <div class="card" data-name="decoys rejected" style="left:90px;top:644px;width:1740px;height:144px"><div class="card-content"><div data-role="text" class="label" style="width:460px">Decoys rejected</div><div data-role="shape" style="left:510px;top:8px;width:650px;height:28px;background:#e6e6eb"></div><div data-role="shape" style="left:510px;top:8px;width:650px;height:28px;background:var(--section)"></div><div data-role="shape" style="left:1160px;top:0;width:0;height:44px;border-left:2px solid var(--ink)"></div><div data-role="text" class="value" style="left:1060px;top:48px;width:200px;text-align:center;font-size:32px!important">12/12</div><div data-role="text" class="caption" style="left:1210px;width:180px">12 decoys</div><div data-role="text" style="left:1450px;width:100px">—</div></div></div>
+ <div class="card" data-name="pilot target" style="left:90px;top:794px;width:1740px;height:130px"><div class="card-content"><div data-role="text" class="label" style="width:460px">Pilot edits</div><div data-role="text" class="value" style="left:510px;width:280px">—</div><div data-role="text" class="caption" style="left:800px;top:12px;width:320px">current unmeasured</div><div data-role="text" class="caption" style="left:1210px;width:210px">≤15 min target</div><div data-role="shape" class="status-pill" style="left:1430px">Next</div></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">6</div>
+ <aside data-role="notes">goal-progress · default. The bars compare supplied counts with their denominators, not inferred completion percentages. The validation perspectives comprise eight validated, one partly validated and one not yet validated. All glass decoys were rejected, equivalent to zero of twelve passing. The pilot has no current edit-time measurement, so it has no filled progress bar. Done is the supplied Liquid Glass workstream status. Source: R11 input S09 and fact sheet.</aside>
+</section>
+<section class="page" id="S07" data-layout="multi-year-table" data-variant="default">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How and when</span></div><div data-role="text" class="headline">R10 met the limits with one exception</div><div data-role="text" class="subtitle">R10 source measurements · before the word-count correction</div>
+ <table data-role="table" class="report-table" style="left:90px;top:430px;width:1260px"><colgroup><col style="width:390px"><col style="width:218px"><col style="width:218px"><col style="width:218px"><col style="width:216px"></colgroup><thead><tr><th>Measure</th><th class="numeric">R10 S1</th><th class="numeric">R10 S2</th><th class="numeric">R10 S3</th><th class="numeric">Limit</th></tr></thead><tbody><tr><td>Counted words</td><td class="numeric">77</td><td class="numeric">89</td><td class="numeric">90</td><td class="numeric">≤90</td></tr><tr><td>Labelled values</td><td class="numeric">7</td><td class="numeric">18</td><td class="numeric">13</td><td class="numeric">≥10</td></tr><tr><td>Notes words</td><td class="numeric">108</td><td class="numeric">113</td><td class="numeric">115</td><td class="numeric">≤150</td></tr><tr><td>Correction rounds</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">1</td><td class="numeric">≤2</td></tr></tbody></table>
+ <div class="group" style="left:1410px;top:316px;width:420px"><div data-role="text" class="group-title label">Framing exception</div><div data-role="text" class="group-body value">7 values</div></div><div class="group" style="left:1410px;top:542px;width:420px"><div data-role="text" class="group-title label">R10 S1</div><div data-role="text" class="group-body">Source-limited; no padding.</div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: R11 fact sheet · R10 recorded measurements</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">7</div>
+ <aside data-role="notes">multi-year-table · default. This layout compares the three R10 slides rather than years, using the measurements supplied in the fact sheet. These are the recorded R10 counts before this run corrected the timeline note and before catalogue layout prefixes were added. They are not counts of the current catalogue pages. The first slide has the approved framing exception to the labelled-value floor. Source: R11 input S10 and fact sheet. Source-limited whitespace is retained instead of inventing extra rows.</aside>
+</section>
+<section class="page" id="S08" data-layout="executive-summary" data-variant="three groups">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How and when</span></div><div data-role="text" class="headline">Facts survive edits and visual refinement</div>
+ <div class="card" data-name="facts stay true" style="left:90px;top:290px;width:564px;height:566px"><div data-role="shape" class="identity-rule" style="width:564px"></div><div class="card-content"><div data-role="text" class="label" style="width:500px">Facts stay true</div><div data-role="text" class="value" style="top:48px;width:500px">6/6</div><div data-role="text" class="caption" style="top:108px;width:500px">held-out pass points</div><table data-role="table" class="label-value-table" style="top:330px;width:500px"><colgroup><col style="width:295px"><col style="width:205px"></colgroup><tbody><tr><td>Numbers kept</td><td>112/112</td></tr></tbody></table></div></div>
+ <div class="card" data-name="edits stay safe" style="left:678px;top:290px;width:564px;height:566px"><div data-role="shape" class="identity-rule" style="width:564px"></div><div class="card-content"><div data-role="text" class="label" style="width:500px">Edits stay safe</div><div data-role="text" class="value" style="top:48px;width:500px">0</div><div data-role="text" class="caption" style="top:108px;width:500px">changes after save → reopen</div><table data-role="table" class="label-value-table" style="top:330px;width:500px"><colgroup><col style="width:330px"><col style="width:170px"></colgroup><tbody><tr><td>Edit types tested</td><td>5</td></tr></tbody></table></div></div>
+ <div class="card" data-name="finish matches" style="left:1266px;top:290px;width:564px;height:566px"><div data-role="shape" class="identity-rule" style="width:564px;background:var(--accent)"></div><div class="card-content"><div data-role="text" class="label" style="width:500px">Finish matches</div><div data-role="text" class="value" style="top:48px;width:500px">110.5 → 45.5</div><div data-role="text" class="caption" style="top:108px;width:500px">median counted words</div><table data-role="table" class="label-value-table" style="top:330px;width:500px"><colgroup><col style="width:330px"><col style="width:170px"></colgroup><tbody><tr><td>Glass judged real</td><td>8/8</td></tr><tr><td>Decoys passed</td><td>0/12</td></tr></tbody></table></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">8</div>
+ <aside data-role="notes">executive-summary · three groups. The supplied historical results cover factual retention, edit safety and visual refinement. The zero-change result came from four decks; the five tested edit types were lengthen, wrap, save and reopen, chart data and an added slide. Word medians use one counting method across R3 and R5. These results do not establish acceptance of a future live-report pilot. Source: R11 input S11 and fact sheet.</aside>
+</section>
+<section class="page" id="S09" data-layout="site-data" data-variant="three renderers">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How and when</span></div><div data-role="text" class="headline">PowerPoint presents; other renderers have limits</div>
+ <div class="card" data-name="PowerPoint" style="left:90px;top:290px;width:564px;height:560px"><div data-role="shape" class="identity-rule" style="width:564px;background:var(--accent)"></div><div class="card-content"><div data-role="text" class="section-heading" style="width:500px">PowerPoint for Mac</div><div data-role="text" class="caption" style="top:48px;width:500px">Presenting app</div><table data-role="table" class="renderer-table" style="top:230px;width:500px"><colgroup><col style="width:190px"><col style="width:310px"></colgroup><tbody><tr><td>Role</td><td>Present and edit</td></tr><tr><td>Script export</td><td>Real export supported</td></tr><tr><td>Output</td><td>Editable PowerPoint</td></tr></tbody></table></div></div>
+ <div class="card" data-name="LibreOffice" style="left:678px;top:290px;width:564px;height:560px"><div data-role="shape" class="identity-rule" style="width:564px"></div><div class="card-content"><div data-role="text" class="section-heading" style="width:500px">LibreOffice</div><div data-role="text" class="caption" style="top:48px;width:500px">Preview fallback</div><table data-role="table" class="renderer-table" style="top:230px;width:500px"><colgroup><col style="width:190px"><col style="width:310px"></colgroup><tbody><tr><td>Role</td><td>Fallback preview</td></tr><tr><td>Script export</td><td>Fallback available</td></tr><tr><td>Output</td><td>Slide images</td></tr></tbody></table></div></div>
+ <div class="card" data-name="Keynote" style="left:1266px;top:290px;width:564px;height:560px"><div data-role="shape" class="identity-rule" style="width:564px"></div><div class="card-content"><div data-role="text" class="section-heading" style="width:500px">Keynote</div><div data-role="text" class="caption" style="top:48px;width:500px">Import limitation</div><table data-role="table" class="renderer-table" style="top:230px;width:500px"><colgroup><col style="width:190px"><col style="width:310px"></colgroup><tbody><tr><td>Role</td><td>Import unverified</td></tr><tr><td>Script import</td><td>Fails on this Mac</td></tr><tr><td>Manual import</td><td>Unverified</td></tr></tbody></table></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">9</div>
+ <aside data-role="notes">site-data · three renderers. The parallel data-sheet layout compares rendering applications instead of physical sites. The fact sheet describes PowerPoint's supported real export path, LibreOffice's preview fallback and the failed scripted Keynote import on this Mac. It does not claim that this run exported successfully through PowerPoint; the actual renderer appears on the review image and in STATUS. Keynote's manual import and edit acceptance remain unverified. Source: R11 input S12 and renderer facts.</aside>
+</section>
+<section class="page" id="S10" data-variant="numbered-needs" data-layout="peer-columns">
+  <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How to use</span></div>
+  <div data-role="text" class="headline">Ask in plain words, get an editable deck</div>
+  <div class="card use-column" data-name="Install once" style="left:90px"><div data-role="shape" class="identity-rule"></div><div class="card-content">
+    <div data-role="text" class="value step-number">1</div><div data-role="text" class="section-heading step-title">Install once.</div>
+    <table data-role="table" class="use-list paired-list" data-name="Installation requirements"><colgroup><col style="width:210px"><col style="width:143px"></colgroup><tbody>
+      <tr><td><span class="label">Links</span><br>Claude, Codex</td><td class="numeric"><span class="value">2</span></td></tr>
+      <tr><td><span class="label">Python</span></td><td class="numeric"><span class="value">≥3.10</span></td></tr>
+    </tbody></table>
+    <div data-role="text" class="need">You need: Mac, SF Pro, Chrome, PowerPoint.</div>
+  </div></div>
+  <div class="card use-column" data-name="Ask" style="left:531px"><div data-role="shape" class="identity-rule"></div><div class="card-content">
+    <div data-role="text" class="value step-number">2</div><div data-role="text" class="section-heading step-title">Ask.</div>
+    <div data-role="text" class="label" style="top:144px;width:353px">Prompt</div>
+    <div data-role="text" style="top:184px;width:353px;line-height:28px">“Make a management deck from this report”</div>
+    <table data-role="table" class="use-list paired-list" data-name="Request inputs" style="top:280px"><colgroup><col style="width:183px"><col style="width:170px"></colgroup><tbody>
+      <tr><td><span class="label">Inputs</span><br>types</td><td class="numeric"><span class="value">4</span></td></tr>
+      <tr><td><span class="label">Footer mark</span></td><td class="numeric">copied verbatim</td></tr>
+    </tbody></table>
+    <div data-role="text" class="need">You need: report and classification.</div>
+  </div></div>
+  <div class="card use-column" data-name="Check the outline" style="left:972px"><div data-role="shape" class="identity-rule"></div><div class="card-content">
+    <div data-role="text" class="value step-number">3</div><div data-role="text" class="section-heading step-title">Check the outline.</div>
+    <table data-role="table" class="use-list paired-list" data-name="Outline requirements"><colgroup><col style="width:183px"><col style="width:170px"></colgroup><tbody>
+      <tr><td><span class="label">outline.md</span><br>line/slide</td><td class="numeric"><span class="value">1</span></td></tr>
+      <tr><td><span class="label">Layouts</span></td><td class="numeric"><span class="value">16</span></td></tr>
+      <tr><td><span class="label">Per slide</span><br>values / words</td><td class="numeric">≥10 / ≤90</td></tr>
+    </tbody></table>
+    <div data-role="text" class="need">You need: OK on each line.</div>
+  </div></div>
+  <div class="card use-column" data-name="Edit and present" style="left:1413px"><div data-role="shape" class="identity-rule" style="background:var(--accent)"></div><div class="card-content">
+    <div data-role="text" class="value step-number">4</div><div data-role="text" class="section-heading step-title">Edit and present.</div>
+    <table data-role="table" class="use-list paired-list" data-name="Editable output"><colgroup><col style="width:183px"><col style="width:170px"></colgroup><tbody>
+      <tr><td><span class="label">Output</span></td><td class="numeric">native PPTX</td></tr>
+      <tr><td><span class="label">Target</span><br>min edits</td><td class="numeric"><span class="value">≤15</span></td></tr>
+      <tr><td><span class="label">Notes</span><br>words/slide</td><td class="numeric"><span class="value">≤150</span></td></tr>
+    </tbody></table>
+    <div data-role="text" class="need">You need: PowerPoint for Mac.</div>
+  </div></div>
+  <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill, SKILL.md</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">10</div>
+  <aside data-role="notes">peer-columns · numbered-needs. Installation is two symbolic links, one each for Claude and Codex. Everything runs on your Mac and uploads nothing. The four input types are PDF, PPTX, Keynote export and notes. The output has native editable text, tables and charts; a supplied reference picture remains a picture. The outline is the review point before building a deck. This is not for marketing or pitch decks, a single chart or a typo fix in an existing PPTX. Liquid Glass needs a rebuild after its text or backdrop changes. No script test covers Keynote import. The fifteen-minute edit target is the acceptance test, not a guaranteed measured saving. Sources: approved R10 input, slide 3; Report Slides skill SKILL.md.</aside>
+</section>
+<section class="page" id="S11" data-layout="text-kpi-rail" data-variant="default">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How to use</span></div><div data-role="text" class="headline">Use reports within the supported workflow</div>
+ <div class="group" style="left:90px;top:322px;width:500px"><div data-role="text" class="group-title label">Inputs</div><div data-role="text" class="group-body">PDF · PPTX · Keynote export · notes</div></div>
+ <div class="group" style="left:90px;top:650px;width:500px"><div data-role="text" class="group-title label">Outputs</div><div data-role="text" class="group-body">outline.md · deck.pptx · PowerPoint renders</div></div>
+ <div class="group" style="left:666px;top:322px;width:500px"><div data-role="text" class="group-title label">Not for</div><div data-role="text" class="group-body">Marketing decks · single chart · typo fix</div></div>
+ <div class="group" style="left:666px;top:650px;width:500px"><div data-role="text" class="group-title label">Limits</div><div data-role="text" class="group-body">Glass rebuild after edits; Keynote untested.</div></div>
+ <div class="card" data-name="KPI rail" style="left:1266px;top:290px;width:564px;height:568px"><div data-role="shape" class="panel"></div><div class="card-content"><table data-role="table" style="width:500px;background:transparent"><colgroup><col style="width:500px"></colgroup><tbody><tr><td style="line-height:52px"><span class="label">Install links</span><br><span class="value">2</span></td></tr><tr><td style="line-height:52px"><span class="label">Layouts</span><br><span class="value">16</span></td></tr><tr><td style="line-height:52px"><span class="label">Pilot edit target</span><br><span class="value">≤15 min</span></td></tr></tbody></table></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">11</div>
+ <aside data-role="notes">text-kpi-rail · default. The inputs and exclusions define the intended workflow. PowerPoint is the target viewing application; preview images may use the permitted fallback. The links are the local Claude and Codex skill installations. The edit target must be tested on a live report. Glass faces must be rebuilt after changes to their text, position or backdrop, and Keynote has no successful scripted-import check on this Mac. Source: R11 input S14 and fact sheet.</aside>
+</section>
+<section class="page" id="S12" data-layout="bento-plain" data-variant="5 tiles" data-theme="black">
+ <div data-role="text" class="eyebrow">Report Slides skill | How to use</div><div data-role="text" class="headline">Labelled evidence keeps the deck useful</div>
+ <div class="card" data-name="install links" style="left:90px;top:270px;width:564px;height:284px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:484px">Install links</div><div data-role="text" class="g-big" style="left:40px;top:90px;width:484px">2</div></div>
+ <div class="card" data-name="input types" style="left:678px;top:270px;width:564px;height:284px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:484px">Input types</div><div data-role="text" class="g-big" style="left:40px;top:90px;width:484px">4</div></div>
+ <div class="card" data-name="layouts" style="left:1266px;top:270px;width:564px;height:284px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:484px">Layouts</div><div data-role="text" class="g-big" style="left:40px;top:90px;width:484px">16</div></div>
+ <div class="card" data-name="evidence density" style="left:90px;top:578px;width:858px;height:314px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:778px">Values / words</div><div data-role="text" class="g-big" style="left:40px;top:90px;width:778px">≥10 / ≤90</div><div data-role="text" class="caption" style="left:40px;top:204px;width:778px">Per content slide</div></div>
+ <div class="card" data-name="pilot edit target" style="left:972px;top:578px;width:858px;height:314px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:778px">Pilot edit target</div><div data-role="text" class="g-big" style="left:40px;top:90px;width:778px">≤15 min</div><div data-role="text" class="caption" style="left:40px;top:204px;width:778px">Presenter's own edits</div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">12</div>
+ <aside data-role="notes">bento-plain · 5 tiles · black. With no photograph behind the tiles, these are native solid shapes. The density limits describe ordinary content slides; this catalogue explicitly retains source-limited examples without padding. The pilot edit time is a pass target, not an observed outcome. Source: R11 input S15 and fact sheet.</aside>
+</section>
+<section class="page" id="S13" data-layout="bento-glass" data-variant="image-needed; plain 3 tiles (1 large + 2)" data-theme="white">
+ <div data-role="text" class="eyebrow">Report Slides skill | How to use</div><div data-role="text" class="headline">The pilot tests presenter's editing time</div>
+ <div data-role="shape" class="image-needed" data-name="PowerPoint editing image needed" style="left:90px;top:250px;width:858px;height:659px;--image-radius:40px">Image needed: a photo of the deck being edited in PowerPoint on a Mac</div>
+ <div class="card" data-name="pilot edit target" style="left:972px;top:250px;width:858px;height:317px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:44px;top:40px;width:770px;height:24px">Pilot edit target</div><div data-role="text" class="g-big" style="left:44px;top:173px;width:770px;height:72px">≤15 min</div></div>
+ <div class="card" data-name="install links" style="left:972px;top:591px;width:417px;height:318px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:337px;height:24px">Install links</div><div data-role="text" class="g-mid" style="left:40px;top:182px;width:337px;height:60px">2</div></div>
+ <div class="card" data-name="layouts" style="left:1413px;top:591px;width:417px;height:318px"><div data-role="shape" class="bento-tile" style="inset:0"></div><div data-role="text" class="g-lab" style="left:40px;top:40px;width:337px;height:24px">Layouts</div><div data-role="text" class="g-mid" style="left:40px;top:182px;width:337px;height:60px">16</div></div>
+ <div data-role="text" class="caption" style="left:90px;top:938px;width:1740px">Target for the presenter's own edits</div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">13</div>
+ <aside data-role="notes">bento-glass · image-needed; plain 3 tiles (1 large + 2) · white. The pilot must establish the actual editing time. A photo of this deck being edited in PowerPoint on a Mac is needed to show that activity. Until it is supplied, the placeholder and all three text tiles remain native editable shapes. Rebuild with glass over the matching photo when it arrives. Source: R11 input S16 and fact sheet.</aside>
+</section>
+<section class="page" id="S14" data-layout="glass-callouts" data-variant="image-needed; 2 plain capsules" data-theme="black">
+ <div data-role="text" class="eyebrow">Report Slides skill | How to use</div><div data-role="text" class="headline">Choose a layout, then test the edits</div>
+ <div data-role="shape" class="image-needed" data-name="Mac product image needed" style="left:90px;top:250px;width:1160px;height:680px;--image-radius:40px">Image needed: a product photo of a Mac showing this deck</div>
+ <div class="card" data-name="layout capsule" style="left:1274px;top:410px;width:556px;height:144px"><div data-role="shape" style="inset:0;background:var(--surface);border-radius:72px"></div><div data-role="text" class="g-lab" style="left:40px;top:26px;width:476px;height:24px;text-align:center">Layouts</div><div data-role="text" class="g-val" style="left:40px;top:62px;width:476px;height:52px;text-align:center">16</div></div>
+ <div class="card" data-name="edit target capsule" style="left:1274px;top:708px;width:556px;height:144px"><div data-role="shape" style="inset:0;background:var(--surface);border-radius:72px"></div><div data-role="text" class="g-lab" style="left:40px;top:26px;width:476px;height:24px;text-align:center">Edit target</div><div data-role="text" class="g-val" style="left:40px;top:62px;width:476px;height:52px;text-align:center">≤15 min</div></div>
+ <div data-role="text" class="caption" style="left:90px;top:950px;width:850px">Layout choice follows the source.</div><div data-role="text" class="caption" style="left:1008px;top:950px;width:750px">Time the presenter's own edits.</div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">14</div>
+ <aside data-role="notes">glass-callouts · image-needed; 2 plain capsules · black. A product photo of a Mac showing this deck is needed. The figures describe the slide skill and its pilot edit target. Each plain capsule carries one native value and short label; explanatory captions remain outside. The placeholder is a native editable shape. Rebuild with glass over the matching photo when it is supplied. Source: R11 input S17 and fact sheet.</aside>
+</section>
+<section class="page" id="S15" data-layout="decision-tables" data-variant="default">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How to use</span></div><div data-role="text" class="headline">Start with one live report</div>
+ <table data-role="table" class="report-table" style="left:90px;top:250px;width:1740px"><colgroup><col style="width:570px"><col style="width:550px"><col style="width:620px"></colgroup><thead><tr><th>Option</th><th>Condition</th><th>Recommendation</th></tr></thead><tbody><tr class="highlight"><td>One live report</td><td>Time presenter edits</td><td>Recommended</td></tr><tr><td>Team use</td><td>After a pilot pass</td><td>Then share the skill</td></tr><tr><td>For information</td><td>No pilot</td><td>No decision requested</td></tr></tbody></table>
+ <table data-role="table" class="report-table" style="left:90px;top:590px;width:1060px"><colgroup><col style="width:480px"><col style="width:290px"><col style="width:290px"></colgroup><thead><tr><th>Quantity</th><th class="numeric">Actual</th><th class="numeric">Limit / target</th></tr></thead><tbody><tr><td>R10 build time</td><td class="numeric">14 min</td><td class="numeric">2.5 h</td></tr><tr><td>R10 slides</td><td class="numeric">3</td><td class="numeric">—</td></tr><tr><td>Pilot edits</td><td class="numeric">—</td><td class="numeric">≤15 min</td></tr></tbody></table>
+ <div class="group" style="left:1240px;top:600px;width:590px"><div data-role="text" class="group-title label">Ask</div><div data-role="text" class="group-body">Owner: choose one live report.</div></div><div class="group" style="left:1240px;top:730px;width:590px"><div data-role="text" class="group-title label">Next gate</div><div data-role="text" class="group-body">≤15 min edits unlocks team use.</div></div><div data-role="text" class="caption" style="left:1240px;top:862px;width:590px">Date · TBD</div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">15</div>
+ <aside data-role="notes">decision-tables · default. The recommendation is to test one live report before team use. The R10 build time is the executor's generation time, not the presenter's editing time. Its time box is a cap, not an observed duration. The pilot edit target is the supplied pass criterion; current edit time and the decision date are not supplied. Source: R11 input S18 and fact sheet. This slide presents the supplied next-use options; it does not authorise another run.</aside>
+</section>
+<section class="page" id="S16" data-layout="evidence-actions" data-variant="four actions">
+ <div data-role="text" class="eyebrow">Report Slides skill | <span class="section-text">How to use</span></div><div data-role="text" class="headline">Build the pilot and time the edits</div>
+ <div class="actions-content"><table data-role="table" class="report-table"><colgroup><col style="width:700px"><col style="width:430px"><col style="width:330px"><col style="width:280px"></colgroup><thead><tr><th>Action</th><th>Target / condition</th><th>Owner</th><th>Date</th></tr></thead><tbody><tr><td>Build from one live report</td><td>Real-deck pilot</td><td>Owner</td><td>TBD</td></tr><tr><td>Time the edits</td><td>≤15 min</td><td>TBD</td><td>TBD</td></tr><tr><td>Share with the team</td><td>After a pass</td><td>TBD</td><td>TBD</td></tr><tr><td>Keep the PowerPoint check</td><td>Presenting app</td><td>Claude</td><td>TBD</td></tr></tbody></table>
+ <div class="card ask-card" data-name="pilot ask"><div data-role="shape" class="panel"></div><div class="card-content"><div data-role="text" class="section-heading">Choose one live report; unlock the pilot.</div><div data-role="text">Owner · date TBD</div></div></div></div>
+ <div data-role="shape" class="footer-rule"></div><div data-role="text" class="footer footer-source">Source: Report Slides skill · approved catalogue input</div><div data-role="text" class="footer footer-mark">Public example</div><div data-role="text" class="footer footer-number">16</div>
+ <aside data-role="notes">evidence-actions · four actions. The closing ask repeats the supplied pilot decision. Only the named action owners are assigned; missing owners and dates remain TBD. Sharing follows a pilot pass and is not part of this catalogue run. PowerPoint checks remain with Claude. No status column is added because the source gives no per-action status words. Source: R11 input S19 and fact sheet.</aside>
+</section>
+
+</main>
+<script>
+// Chart views are built from the same data as the native PowerPoint chart.
+function drawChart(el) {
+  if (el.children.length) return;
+  const d=JSON.parse(el.dataset.chart), w=el.clientWidth, h=el.clientHeight;
+  const horizontal=['bar','stacked_bar'].includes(d.type), stacked=d.type.startsWith('stacked_');
+  const axes=!!d.category_labels, L=axes?(horizontal?205:75):0, T=24, R=65, B=axes?58:24;
+  const pw=w-L-R, ph=h-T-B, n=d.categories.length;
+  const min=stacked?0:d.min, max=stacked?100:d.max;
+  function box(x,y,bw,bh,css,text='') {
+    const node=document.createElement('div');node.style.cssText=`position:absolute;left:${x}px;top:${y}px;width:${bw}px;height:${bh}px;${css}`;node.textContent=text;el.append(node);return node;
+  }
+  function label(x,y,bw,text,align='left',weight=400) {return box(x,y,bw,30,`font-size:${d.label_size||20}px;line-height:28px;font-weight:${weight};color:${d.label_color||'#3c3c3e'};text-align:${align}`,text);}
+  // Same as the converter: six-digit values show thousands ("400K") on axis and labels.
+  const compact=!stacked && d.series.some(s=>s.values.some(v=>Math.abs(v)>=100000));
+  const tickStep=d.major_unit||((max-min)/4), tickScale=(d.number_format||'').includes('%')?100:1;
+  const wholeTicks=[min*tickScale,tickStep*tickScale].every(v=>Math.abs(v-Math.round(v))<1e-9);
+  function fmt(v,axis=false) {if(compact) return Math.round(v/1000).toLocaleString('en-US')+'K';const decimals=axis&&wholeTicks?0:((d.number_format||'0').split('.')[1]?.replace(/[^0#]/g,'').length||0);return (v*tickScale).toLocaleString('en-US',{minimumFractionDigits:decimals,maximumFractionDigits:decimals})+((d.number_format||'').includes('%')?'%':'');}
+  if(axes) for(let i=0;i<=Math.floor((max-min)/(d.major_unit||((max-min)/4)));i++) {
+    const v=min+(d.major_unit||((max-min)/4))*i, fraction=(v-min)/(max-min);
+    if(horizontal) {box(L+pw*fraction,T,1,ph,'background:#d2d2d7');label(L+pw*fraction-45,T+ph+12,90,stacked?v+'%':fmt(v,true),'center');}
+    else {box(L,T+ph-ph*fraction,pw,1,'background:#d2d2d7');label(0,T+ph-ph*fraction-14,L-16,stacked?v+'%':fmt(v,true),'right');}
+  }
+  d.categories.forEach((category,i)=>{
+    const band=(horizontal?ph:pw)/n, mid=band*(i+.5);
+    if(axes) horizontal?label(0,T+mid-14,L-24,category,'right'):label(L+mid-band/2,T+ph+12,band,category,'center');
+    let cumulative=0;
+    const total=d.series.reduce((sum,s)=>sum+s.values[i],0);
+    d.series.forEach((series,j)=>{
+      const original=series.values[i],value=stacked?(total?original/total*100:0):original;
+      const fill=series.point_colors?.[i]||series.color;
+      const group=band/(1+(d.gap??100)/100), thickness=stacked?group:group/d.series.length;
+      const lane=stacked?0:j*thickness;
+      const length=(value-min)/(max-min)*(horizontal?pw:ph);
+      const zero=(Math.max(min,Math.min(max,0))-min)/(max-min)*(horizontal?pw:ph), endpoint=length;
+      if(d.type==='line') {
+        const x=L+mid,y=T+ph-length;
+        box(x-4,y-4,8,8,`border-radius:50%;background:${fill}`);
+        if(i) {const px=L+band*(i-.5),py=T+ph-(series.values[i-1]-min)/(max-min)*ph,dx=x-px,dy=y-py;
+          box(px,py,Math.hypot(dx,dy),d.line_width||3,`background:${fill};transform-origin:0 0;transform:rotate(${Math.atan2(dy,dx)}rad)`);}
+        if(d.data_labels) label(x-50,y-34,100,fmt(original),'center',700);
+      } else if(horizontal) {
+        const x=L+(stacked?cumulative/max*pw:Math.min(zero,endpoint)),y=T+mid-group/2+lane;
+        const span=stacked?length:Math.abs(endpoint-zero);
+        box(x,y,Math.max(0,span),thickness,`background:${fill}`);
+        if(d.data_labels) label(stacked?x:L+endpoint+(value<0?-100:10),y+thickness/2-14,stacked?span:90,fmt(original),stacked?'center':value<0?'right':'left',700);
+      } else {
+        const x=L+mid-group/2+lane,y=T+ph-(stacked?length+cumulative/max*ph:Math.max(zero,endpoint));
+        const span=stacked?length:Math.abs(endpoint-zero);
+        box(x,y,thickness,Math.max(0,span),`background:${fill}`);
+        if(d.data_labels) label(x-30,stacked?y+span/2-14:T+ph-endpoint+(value<0?8:-34),thickness+60,fmt(original),'center',700);
+      }
+      cumulative+=value;
+    });
+  });
+}
+document.querySelectorAll('[data-role="chart"]').forEach(drawChart);
+// View-only controls; the authoring grid never reflows with the viewport.
+const pages = Array.from(document.querySelectorAll('.page'));
+function showPage(id) {
+  const page = pages.find(p => p.id === id) || pages[0];
+  pages.forEach(p => p.classList.toggle('active', p === page));
+  return page?.id;
+}
+function fitStage() {
+  const scale = Math.min(innerWidth / 1920, innerHeight / 1080);
+  const stage = document.getElementById('stage');
+  stage.style.left = `${(innerWidth - 1920 * scale) / 2}px`;
+  stage.style.top = `${(innerHeight - 1080 * scale) / 2}px`;
+  stage.style.transform = `scale(${scale})`;
+}
+addEventListener('resize', fitStage);
+addEventListener('hashchange', () => showPage(location.hash.slice(1)));
+addEventListener('keydown', event => {
+  if (!['ArrowLeft','ArrowRight'].includes(event.key)) return;
+  const current = pages.findIndex(p => p.classList.contains('active'));
+  const next = Math.max(0, Math.min(pages.length - 1, current + (event.key === 'ArrowRight' ? 1 : -1)));
+  location.hash = pages[next].id;
+});
+fitStage(); showPage(location.hash.slice(1));
+</script>
+<script src="glass.js"></script>
+</body>
+</html>

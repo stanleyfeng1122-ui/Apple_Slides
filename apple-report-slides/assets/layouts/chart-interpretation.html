@@ -13,11 +13,13 @@
      Move the native zero-based column bodies and grid into .backdrop. Copy this element
      onto a column body >=60px below its top/value label. A vertical bar edge must cross
      a cap; >=70% of the face overlaps content. At most two; neither repeats the headline.
+     Show a supplied comparison or change, never a threshold or target. Put thresholds
+     beside the chart as labelled values. Notes state the inputs behind any change.
      Coordinates below match a 204px-wide column centred at x=1332. For an accent column,
      add class dim, use data-tint=.07; keep the verified rim. Native bars stay editable. -->
 <template id="column-body-kpi">
   <div class="glass" data-role="glass" data-name="column body KPI" data-tone="light" data-tint=".06" data-tint-base=".06" data-pull="20" style="left:1187px;top:604px;width:290px;height:136px;border-radius:68px">
     <div data-role="text" class="g-lab" style="left:33px;top:22px;width:224px;height:24px;text-align:center">{{COMPARISON LABEL}}</div>
-    <div data-role="text" class="g-big" style="left:33px;top:46px;width:224px;height:72px;text-align:center">{{KPI}}</div>
+    <div data-role="text" class="g-big" style="left:33px;top:46px;width:224px;height:72px;text-align:center">{{OBSERVED CHANGE}}</div>
   </div>
 </template>

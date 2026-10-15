@@ -275,7 +275,8 @@ EXTRACT = r"""page => {
       if(e.plotBox) e.plotBox.y+=shift;
     }
   }
-  return {id:page.id,theme:page.dataset.theme||'report',background:getComputedStyle(page).backgroundColor,
+  return {id:page.id,layout:page.dataset.layout||'',variant:page.dataset.variant||'',
+    theme:page.dataset.theme||'report',background:getComputedStyle(page).backgroundColor,
     notes:page.querySelector('[data-role="notes"]')?.textContent||'',elements,
     tokens:Object.fromEntries(['accent','section','section-text',...Array.from(getComputedStyle(page))
       .filter(key=>/^--identity-\d+$/.test(key)).sort((a,b)=>parseInt(a.split('-').at(-1))-parseInt(b.split('-').at(-1)))
@@ -921,6 +922,7 @@ def convert(pages, output):
         classification = ''.join(r['text'] for line in mark['lines'] for r in line) if mark else ''
         layout = layouts[(source.get('theme', 'report'), classification)]
         slide = deck.slides.add_slide(layout)
+        slide.name = source['layout'] + (' · ' + source['variant'] if source.get('variant') else '')
         for placeholder in list(slide.placeholders):
             if placeholder != slide.shapes.title:
                 slide.shapes._spTree.remove(placeholder._element)

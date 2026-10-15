@@ -1,0 +1,64 @@
+/* Liquid Glass material, round 5 (round 4 + :is(.white,[data-theme="white"]) .glass.dark shadow + .glass.light.clear). Pairs with glass.js.
+   Tone follows the content under each box (data-tone), not the page:
+   dark  = smoke face, white text, bright L-shaped specular rim + inner bevel;
+   light = clear/milk face, near-black text, dark outer hairline + white inner line + specular arc.
+   --a (tint alpha) is written per box by calibrate.py from the measured content under its text.
+   Round 4: --outer is a hairline OUTSIDE the box (on .tint, which has no mask), baked into the
+   PowerPoint face picture by capturing 1 px beyond the box. */
+.glass {position:absolute; isolation:isolate; border-radius:40px; box-shadow:var(--shadow)}
+.glass > .lens {position:absolute; inset:0; border-radius:inherit; overflow:hidden}
+.glass > .lens > .optic {position:absolute; width:1920px; height:1080px}
+.glass > .tint {position:absolute; inset:0; border-radius:inherit; background:var(--tint); box-shadow:var(--outer), var(--inner)}
+.glass > .rim {position:absolute; inset:0; border-radius:inherit; padding:var(--rim-w); background:var(--rim); box-shadow:var(--edge, none);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0)}
+.glass > [data-role] {z-index:3}
+
+.glass {--glass-saturate:1.5; --outer:0 0 0 0 transparent; --rim-w:1.5px}
+.glass.dark {--glass-blur:1.5px; --a:.18; --tint:rgba(0,0,0,var(--a));
+  --inner:inset 1.5px 1.5px 0 -0.5px rgba(255,255,255,.50), inset -1px -1px 0 -0.5px rgba(255,255,255,.16),
+          inset 0 0 12px 1px rgba(255,255,255,.08);
+  --rim:radial-gradient(130% 110% at 0% 0%, rgba(255,255,255,.92) 0%, rgba(255,255,255,.45) 30%, rgba(255,255,255,0) 62%),
+        radial-gradient(70% 70% at 100% 100%, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(rgba(255,255,255,.14), rgba(255,255,255,.14));
+  --shadow:0 12px 36px rgba(0,0,0,.30);
+  --g-label:#f2f2f7; --g-text:#ffffff; --g-cap:#ffffff; --g-halo:0 1px 10px rgba(0,0,0,.38)}
+/* dark (smoke) glass on a WHITE page (C4 bento over a photo): the shadow falls on the white page around the
+   bento, so it is the soft wide lift a white page wants, not the heavier black-page value. */
+:is(.white,[data-theme="white"]) .glass.dark {--shadow:0 16px 48px rgba(0,0,0,.18)}
+/* dark glass over bright content (C2): a dark outer hairline separates the rim from the bright backdrop */
+.glass.dark.over-bright {--outer:0 0 0 .75px rgba(0,0,0,.35)}
+/* light: vertical milk gradient (--a + --milk at the top to --a at the bottom), near-black text.
+   Round 4 over-light rim: 0.75 px dark OUTER hairline (.14), a thin 1 px white inner line (.70), a 2 px rim
+   with one specular arc at the top left and a stronger dark arc at the lower right (.45).
+   --milk is .04 over light figures on a black page and 0 on a white page (milk on white is invisible). */
+.glass.light {--glass-blur:1px; --glass-saturate:1.15; --a:.12; --milk:.04; --rim-w:2px;
+  --tint:linear-gradient(180deg, rgba(255,255,255,calc(var(--a) + var(--milk))), rgba(255,255,255,var(--a)));
+  --inner:inset 1.5px 1.5px 0 -0.5px #fff, inset 0 0 0 1px rgba(255,255,255,.70),
+          inset 0 3px 8px rgba(255,255,255,.35), inset 0 -10px 20px rgba(255,255,255,.12),
+          inset 0 -12px 22px -14px rgba(0,0,0,.10);
+  --rim:radial-gradient(60% 80% at 20% 0%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 45%),
+        linear-gradient(315deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 45%),
+        linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35));
+  --outer:0 0 0 .75px rgba(0,0,0,.14);
+  --shadow:0 16px 48px rgba(0,0,0,.13);
+  --g-label:#1d1d1f; --g-text:#1d1d1f; --g-cap:#1d1d1f; --g-halo:none}
+:is(.white,[data-theme="white"]) .glass.light {--milk:0}
+:is(.black,[data-theme="black"]) .glass.light {--shadow:0 10px 30px rgba(0,0,0,.18)}   /* light glass over light content on a black page */
+/* light glass over saturated dark content (C1's accent bar): Apple's clear variant dims instead of milking,
+   so the face keeps the bar's colour and the labels turn white. */
+.glass.light.dim {--tint:rgba(0,0,0,var(--a)); --g-label:#fff; --g-text:#fff; --g-cap:#fff; --g-halo:0 1px 8px rgba(0,0,0,.30)}
+/* clear light glass over a low-contrast light figure (prototype figure retune, round 4): no milk, no white inset
+   glows, no blur; the face is the magnified figure plus the rim. Pair with data-tint-base .04 and data-mag .12. */
+.glass.light.clear {--milk:0; --glass-blur:0px;
+  --inner:inset 1.5px 1.5px 0 -0.5px #fff, inset 0 0 0 1px rgba(255,255,255,.70), inset 0 -12px 22px -14px rgba(0,0,0,.10)}
+
+/* Foreground type from the verified prototype; all of it stays native in PPTX. */
+.glass [data-role="text"] {text-shadow:var(--g-halo)}
+.g-lab {font-size:20px!important;line-height:24px!important;font-weight:600!important;letter-spacing:.4px;text-transform:uppercase;color:var(--g-label,var(--muted))}
+.g-val {font-family:var(--font-display);font-size:44px!important;line-height:52px!important;font-weight:700!important;color:var(--g-text,var(--ink))}
+.g-mid {font-family:var(--font-display);font-size:56px!important;line-height:60px!important;font-weight:700!important;color:var(--g-text,var(--ink));letter-spacing:-.3px}
+.g-big {font-family:var(--font-display);font-size:64px!important;line-height:72px!important;font-weight:700!important;color:var(--g-text,var(--ink));letter-spacing:-.5px}
+.g-hero {font-family:var(--font-display);font-size:88px!important;line-height:96px!important;font-weight:700!important;color:var(--g-text,var(--ink));letter-spacing:-1px}
+.g-cap {font-size:22px!important;line-height:28px!important;color:var(--g-cap,var(--ink))}
+.g-tag {font-size:22px!important;line-height:28px!important;font-weight:600!important;color:var(--g-text,var(--ink))}

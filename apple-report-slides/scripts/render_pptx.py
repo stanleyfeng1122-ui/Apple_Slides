@@ -190,9 +190,14 @@ def libreoffice_export(source: Path, work: Path) -> Path:
     return preview
 
 
-def render(pptx: Path, output: Path, app: str = 'powerpoint') -> tuple[int, str]:
+def render(pptx: Path, output: Path, app: str = 'powerpoint',
+           keep_pdf: Path | None = None) -> tuple[int, str]:
     pptx = pptx.expanduser().resolve(strict=True)
     output = output.expanduser().resolve()
+    if keep_pdf is not None:
+        keep_pdf = keep_pdf.expanduser().resolve()
+        if keep_pdf.suffix.lower() != '.pdf' or keep_pdf == pptx:
+            raise ValueError('--pdf must name a separate .pdf file')
     with zipfile.ZipFile(pptx) as deck:
         root = ET.fromstring(deck.read('ppt/presentation.xml'))
     count = len(root.findall('{*}sldIdLst/{*}sldId'))
@@ -233,6 +238,9 @@ def render(pptx: Path, output: Path, app: str = 'powerpoint') -> tuple[int, str]
                 canvas = Image.new('RGB', (1920, 1080), 'white')
                 canvas.paste(fitted, ((1920-fitted.width)//2, (1080-fitted.height)//2))
                 canvas.save(output / f'S{number:02d}.png')
+        if keep_pdf is not None:
+            keep_pdf.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(pdf, keep_pdf)
         print(f'Renderer: {renderer} · {count} slides · {output}', flush=True)
     return count, renderer
 
@@ -242,9 +250,10 @@ def main() -> None:
     parser.add_argument('pptx', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('--app', choices=['powerpoint', 'keynote', 'libreoffice'], default='powerpoint')
+    parser.add_argument('--pdf', type=Path, help='Keep the exported PDF for text-position checks; not a deliverable')
     args = parser.parse_args()
     try:
-        render(args.pptx, args.output, args.app)
+        render(args.pptx, args.output, args.app, args.pdf)
     except (OSError, ValueError, RuntimeError, KeyError, zipfile.BadZipFile,
             ET.ParseError, subprocess.SubprocessError) as exc:
         detail = getattr(exc, 'stderr', None) or str(exc)
