@@ -7,6 +7,7 @@ application-driven row growth is measured rather than guessed from OOXML.
 Use --before with the pre-fix PNG directory to detect new empty-band regressions.
 """
 import argparse
+import math
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -50,6 +51,7 @@ class Element:
     parent: str = ''
     lines: list = field(default_factory=list)
     tokens: set = field(default_factory=set)
+    chart_layouts: list = field(default_factory=list)
 
 
 def scaled(rect, sx, sy):
@@ -100,7 +102,10 @@ def collect(slide, deck, page):
                 continue
             kind = 'chart' if shape.has_chart else 'picture' if shape.shape_type==MSO_SHAPE_TYPE.PICTURE else 'shape'
             text = shape.text if shape.has_text_frame else ''
-            elements.append(Element(shape.name,box,kind,text))
+            element = Element(shape.name,box,kind,text)
+            if shape.has_chart:
+                element.chart_layouts = shape.chart._chartSpace.xpath('.//c:manualLayout')
+            elements.append(element)
 
     walk(slide.shapes)
     # Layout/master placeholder text is overridden by slide placeholders. Footer
@@ -196,9 +201,10 @@ def exception_slides(outline):
     if not outline.is_file(): return set()
     result=set()
     for line in outline.read_text().splitlines():
-        if re.search(r'exception|exempt',line,re.I):
-            for match in re.findall(r'\bS0*(\d+)\b|\bslide\s+0*(\d+)\b',line,re.I):
-                result.update(int(value) for value in match if value)
+        match = re.match(r'^\s*(?:S0*(\d+)|slide\s+0*(\d+))\b.*'
+                         r'·\s*exception:\s*([^·\s][^·]*)\s*$', line, re.I)
+        if match:
+            result.add(int(match.group(1) or match.group(2)))
     return result
 
 
@@ -210,6 +216,41 @@ def graded(delta, action):
            'restructure the slide (90–160 px)' if delta<=160 else
            'switch layout or split (>160 px)')
     return f'{grade}; {action}'
+
+
+def chart_findings(elements, page):
+    """Check native plot bounds and actual PDF text, independently of the renderer."""
+    px, py = STAGE[0]/page.rect.width, STAGE[1]/page.rect.height
+    pdf_lines = []
+    for block in page.get_text('dict')['blocks']:
+        for line in block.get('lines', []):
+            text = ''.join(span['text'] for span in line['spans']).strip()
+            if text:
+                pdf_lines.append((scaled(line['bbox'], px, py), text))
+    for chart in (e for e in elements if e.kind == 'chart'):
+        for layout in chart.chart_layouts:
+            values = {}
+            for key in 'xywh':
+                node = layout.find('{http://schemas.openxmlformats.org/drawingml/2006/chart}' + key)
+                if node is not None:
+                    try:
+                        values[key] = float(node.get('val'))
+                    except (TypeError, ValueError):
+                        values[key] = float('nan')
+            invalid = any(not math.isfinite(v) or not 0 < v <= 1 for v in values.values())
+            invalid |= all(k in values for k in 'xw') and values['x']+values['w'] > 1
+            invalid |= all(k in values for k in 'yh') and values['y']+values['h'] > 1
+            if invalid:
+                yield ('chart-layout', chart.name, f'manualLayout {values}',
+                       're-measure the plot or omit invalid manual layout', None)
+        lines = [(box, text) for box, text in pdf_lines if contains(chart.box, box)]
+        for i, (a, text_a) in enumerate(lines):
+            for b, text_b in lines[i+1:]:
+                w, h = intersection(a, b)
+                if w > 1 and h > 1:
+                    yield ('chart-text', chart.name,
+                           f'PDF lines {text_a!r} / {text_b!r} overlap {w:.1f}×{h:.1f}px',
+                           'separate chart labels or repair the plot layout', min(w, h))
 
 
 def check(deck_path, render_dir, pdf_path, before=None):
@@ -232,6 +273,8 @@ def check(deck_path, render_dir, pdf_path, before=None):
             if n>=3 and layout in registry and layouts[-3:]==[layout]*3:
                 emit(n,'variety','WARN','slides',f'S{n-2:02d}–S{n:02d}: {layout}','choose a different fitting layout',161)
             elements,tables=collect(slide,deck,page)
+            for check_name, element, measured, action, delta in chart_findings(elements, page):
+                emit(n, check_name, 'FAIL', element, measured, action, delta)
             notes=slide.notes_slide.notes_text_frame.text.strip() if slide.has_notes_slide else ''
             if not notes or len(words(notes))>150:
                 emit(n,'notes','FAIL','presenter notes',f'{len(words(notes))} words','write a non-empty script of ≤150 words')

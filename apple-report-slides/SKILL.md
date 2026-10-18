@@ -39,7 +39,12 @@ Read [the layout index](references/layouts.md), then use [the template](assets/t
 - Footer mark: copy the source classification verbatim. If absent, ask once; never default internal material to “Public”.
 
 1. **Read the source.** Identify scope, reporting period, units, goals, qualifications, footnotes and source pages. Use only supplied facts and printed numerical data; never digitise chart images. Separate reported results, forecasts and proposed follow-ups.
-2. **Write `outline.md`.** One line per slide: `job · layout · dominant object (figure / chart / table / numbers / timeline / actions) · headline (verbatim if supplied) · evidence · source page`. Choose from the index; if two fit, prefer the one whose 'needs' the source fully meets. If one is missing, use the closest, record the gap in the outline and tell the user; never edit the skill mid-deck.
+   - Preserve the printed spec window when source numbers disagree; never silently recompute it.
+   - Flag the conflicting source numbers in the speaker notes.
+2. **Write `outline.md`.** One line per slide: `S## · job · layout · dominant object (figure / chart / table / numbers / timeline / actions) · headline (verbatim if supplied) · evidence · source page`.
+   - Choose from the index; if two fit, prefer the one whose 'needs' the source fully meets.
+   - For a missing layout, use the closest, record the gap in the outline and tell the user; never edit the skill mid-deck.
+   - Append ` · exception: <reason>` as the final field only for a recorded exception; prose mentioning exceptions or exemptions is not a marker.
 3. **Copy the template** to `deck.html`, replace `{{TITLE}}` and insert snippet pages in `{{SLIDES}}`. Keep the CSS and viewing controls. Copy the template’s local `glass.css` and `glass.js` beside `deck.html`. No remote resources.
 4. **Write each page.** Unique filename-safe ID, registered layout, source footer, exact classification, slide number and hidden notes. Mark visible primitives with `data-role`; unmarked containers arrange only. Mark panel backgrounds separately before their contents. No visible CSS pseudo-elements.
 5. **Render all HTML pages:** `python3 /absolute/skill/scripts/render_html.py /absolute/deck/deck.html /absolute/deck/html`. Installed Chrome runs offline without a server.
@@ -103,7 +108,9 @@ Read [the layout index](references/layouts.md), then use [the template](assets/t
 - Split a source slide only when it cannot fit at the type floors. If each half then leaves an empty band reaching the split/merge height below, merge them back into one slide and size rows to content.
 - Let sentences wrap naturally. Hard breaks only between independent labels, never within a sentence.
 - A native chart must stay correct when a manager edits its data in PowerPoint.
-- Visible axes start at zero and auto-scale the maximum; use an explicit `axis_max` only with the explicit-axis headroom below.
+- Nonnegative value axes start at zero and auto-scale the maximum; use an explicit `axis_max` only with the explicit-axis headroom below.
+- Show signed changes on a value axis spanning negative values, zero and positive values; a diverging bar chart is allowed.
+- Preserve negative chart values as native data with an axis minimum below zero.
 - Six-figure values use thousands (`#,##0,"K"`) on the axis and value labels, identically in the HTML view and the native chart; value labels are bold in both.
 - Keep labels apart, reducing them no lower than the chart-label floor below.
 - **Decorative art stays secondary:** an illustration or asset carrying no data occupies at most the decorative-art share below of its card or column and is never dominant. Source text, values and status come first.
@@ -114,7 +121,10 @@ Read [the layout index](references/layouts.md), then use [the template](assets/t
 ## Management story and status
 
 - At the management-story deck-length minimum, slide 2 is `status-summary`; evidence follows its workstream row order. The last slide repeats the ask, owners and dates. Missing owner/date remains “TBD” or the source blank; never invent one.
-- Ask = verb + decision + by-when + what it unblocks. If no decision is supplied: **For information — no decision requested**. “Assign owners” or “confirm status” is never the ask. Label proposed asks and historical status.
+- Quote or closely paraphrase only source-stated asks, decisions and recommendations on slides.
+- Show **For information — no decision requested** when the source supplies no ask, decision or recommendation.
+- Include a deadline only when the source states it.
+- Put the agent's own suggestion only in notes, starting with **Suggestion (not in source):**.
 - **Source status words stay verbatim** in pills: choose the nearest semantic colour (Shipped, Done and Complete use achieved), without replacing the source word. The colour families are Achieved · On track / In progress · At risk · Blocked · Proposed. No inference from a number alone. A bare date such as “9 / 30” is a date label, never a status.
 - **Status only where stated:** pills belong only to goals/actions with a source-stated status. An unstated goal/action status is a plain “—”. “TBD” is only a missing owner or date in an action row. Needs, context and method rows have no status field. Drop the status column entirely if no row has a stated status.
 - Never show a standalone “Status: —” line. “—” belongs only inside a status cell or column. If there is no status, show nothing.

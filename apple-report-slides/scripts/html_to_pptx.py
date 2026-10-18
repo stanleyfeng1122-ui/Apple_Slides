@@ -9,6 +9,7 @@ sys.dont_write_bytecode = True
 
 import argparse
 import base64
+import math
 from io import BytesIO
 from pathlib import Path
 import re
@@ -23,7 +24,7 @@ from playwright.sync_api import sync_playwright
 from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
-from pptx.enum.chart import XL_CHART_TYPE, XL_TICK_MARK, XL_DATA_LABEL_POSITION
+from pptx.enum.chart import XL_CHART_TYPE, XL_TICK_MARK, XL_DATA_LABEL_POSITION, XL_TICK_LABEL_POSITION
 from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
 from pptx.enum.dml import MSO_LINE_DASH_STYLE
 from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE, PP_ALIGN
@@ -205,9 +206,15 @@ EXTRACT = r"""page => {
         fill:getComputedStyle(e).backgroundColor}));
       // Measure the actual grid spans; do not guess the native chart engine's
       // label reservation. Both old decks and new template plots are supported.
-      const lines=children.filter(c=>!c.text && (horizontal ? c.box.w<=2 && c.box.h>40 : c.box.h<=2 && c.box.w>40));
-      if(d.category_labels && lines.length>=2) {
-        const coords=lines.map(c=>horizontal?c.box.x:c.box.y).sort((a,b)=>a-b);
+      let lines=children.filter(c=>!c.text && (horizontal ? c.box.w<=2 && c.box.h>40 : c.box.h<=2 && c.box.w>40));
+      // A very short horizontal bar can be as narrow as a gridline. Only
+      // full-height lines bound the plot; bar bodies must not set its width.
+      if(horizontal && lines.length) {
+        const height=Math.max(...lines.map(c=>c.box.h));
+        lines=lines.filter(c=>Math.abs(c.box.h-height)<1);
+      }
+      const coords=[...new Set(lines.map(c=>horizontal?c.box.x:c.box.y))].sort((a,b)=>a-b);
+      if(d.category_labels && coords.length>=2) {
         const range=d.type.startsWith('stacked_')?100:d.max-d.min;
         const span=(coords[1]-coords[0])*range/(d.major_unit||range/4);
         item.plotBox=horizontal ? {x:coords[0],y:lines[0].box.y,w:span,h:lines[0].box.h}
@@ -542,7 +549,14 @@ def add_chart(slide, item):
         axis.has_minor_gridlines = False
         axis.major_tick_mark = axis.minor_tick_mark = XL_TICK_MARK.NONE
         axis.format.line.fill.background()
-    chart.value_axis.minimum_scale = 0 if stacked or data.get('category_labels') else data['min']
+    values = [value for series in data['series'] for value in series['values'] if value is not None]
+    smallest = min(values, default=data['min'])
+    largest = max(values, default=data['max'])
+    signed = not stacked and (smallest < 0 or data['min'] < 0)
+    if signed:
+        chart.category_axis.tick_label_position = XL_TICK_LABEL_POSITION.LOW
+    chart.value_axis.minimum_scale = (min(data['min'], smallest * 1.15) if signed else
+                                      0 if stacked or data.get('category_labels') else data['min'])
     if stacked:
         chart.value_axis.maximum_scale = 1
         # Authored chart ticks use percentage points (0–100); OOXML's
@@ -550,8 +564,10 @@ def add_chart(slide, item):
         chart.value_axis.major_unit = data.get('major_unit', 25) / 100
         chart.value_axis.tick_labels.number_format = '0%'
         chart.value_axis.tick_labels.number_format_is_linked = False
+    elif signed:
+        chart.value_axis.maximum_scale = max(data.get('axis_max', data['max']), largest * 1.15,
+                                             abs(chart.value_axis.minimum_scale) * .15)
     elif 'axis_max' in data:
-        largest = max(value for series in data['series'] for value in series['values'] if value is not None)
         chart.value_axis.maximum_scale = max(data['axis_max'], largest * 1.15)
     elif data.get('category_labels'):
         chart.value_axis.maximum_scale = None
@@ -591,6 +607,10 @@ def add_chart(slide, item):
             chart.plots[0].overlap = 100
     for series, source in zip(chart.series, data['series']):
         if data['type'] != 'line':
+            if signed:
+                # Explicitly preserve negative bars across chart importers;
+                # category labels stay outside the diverging plot.
+                series.invert_if_negative = False
             paint(series.format.fill, source['color'])
             series.format.line.fill.background()
         else:
@@ -617,16 +637,23 @@ def add_chart(slide, item):
     if layout is None:
         layout = OxmlElement('c:layout')
         plot.insert(0, layout)
-    manual = child(layout, 'c:manualLayout')
-    child(manual, 'c:layoutTarget', val='inner')
-    for key in ('xMode', 'yMode'):
-        child(manual, 'c:' + key, val='edge')
-    for key in ('wMode', 'hMode'):
-        child(manual, 'c:' + key, val='factor')
     inner = item.get('plotBox', item['box']) if data.get('category_labels') else item['box']
-    for key, value in [('x', (inner['x']-b['x'])/b['w']), ('y', (inner['y']-b['y'])/b['h']),
-                       ('w', inner['w']/b['w']), ('h', inner['h']/b['h'])]:
-        child(manual, 'c:' + key, val=value)
+    bounds = dict(x=(inner['x']-b['x'])/b['w'], y=(inner['y']-b['y'])/b['h'],
+                  w=inner['w']/b['w'], h=inner['h']/b['h'])
+    valid = (all(math.isfinite(v) and 0 < v <= 1 for v in bounds.values()) and
+             bounds['x']+bounds['w'] <= 1 and bounds['y']+bounds['h'] <= 1)
+    if valid:
+        manual = child(layout, 'c:manualLayout')
+        child(manual, 'c:layoutTarget', val='inner')
+        for key in ('xMode', 'yMode'):
+            child(manual, 'c:' + key, val='edge')
+        for key in ('wMode', 'hMode'):
+            child(manual, 'c:' + key, val='factor')
+        for key, value in bounds.items():
+            child(manual, 'c:' + key, val=value)
+    else:
+        print(f"WARNING: {item.get('name', data['type'])}: invalid chart manual layout "
+              f"{bounds}; using PowerPoint automatic layout", file=sys.stderr)
     for root in [chart._chartSpace, plot]:
         sppr = child(root, 'c:spPr')
         child(sppr, 'a:noFill')
