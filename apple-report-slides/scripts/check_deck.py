@@ -23,6 +23,7 @@ from pptx.enum.shapes import MSO_SHAPE_TYPE
 STAGE = (1920, 1080)
 WARNING = ('Glass is a baked picture: rebuild the deck after moving it, editing '
            'what is under it, or lengthening its text.')
+LOCAL_PATH = re.compile(r'/Users/|/home/|~/|\b[A-Za-z]:\\|file://', re.I)
 
 
 def words(text):
@@ -276,6 +277,14 @@ def check(deck_path, render_dir, pdf_path, before=None):
             for check_name, element, measured, action, delta in chart_findings(elements, page):
                 emit(n, check_name, 'FAIL', element, measured, action, delta)
             notes=slide.notes_slide.notes_text_frame.text.strip() if slide.has_notes_slide else ''
+            # Native text retains paths split across rendered lines; PDF text
+            # also covers chart labels and inherited text outside collect().
+            visible_text='\n'.join(e.text for e in elements)+'\n'+page.get_text()
+            for location,text in (('slide text',visible_text),('presenter notes',notes)):
+                match=LOCAL_PATH.search(text)
+                if match:
+                    emit(n,'notes-path','FAIL',location,f'local path or file link ({match.group(0)!r})',
+                         'cite sources by title plus page, section or heading; remove local paths and file links')
             if not notes or len(words(notes))>150:
                 emit(n,'notes','FAIL','presenter notes',f'{len(words(notes))} words','write a non-empty script of ≤150 words')
             glass=any(e.kind == 'picture' and 'glass' in e.name.casefold() and 'rebuild' in e.name.casefold() for e in elements)

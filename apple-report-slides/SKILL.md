@@ -221,6 +221,7 @@ All dimensions are stage pixels unless a ratio, count or unit is given.
 ## Presenter notes
 
 Within the notes word limit per slide: the point, context each number needs, qualifications and source pages.
+- Cite each source by its title plus page, section or heading. Never write a local file path, a username or a `file://` link on slides or in notes.
 - Do not repeat visible text or transcribe the source.
 - Never include earlier wording, drafts or revision history.
 - Keep confidential briefs, sources and slide content outside this package.
